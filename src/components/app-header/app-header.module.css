@@ -1,0 +1,46 @@
+.header {
+  height: 88px;
+  max-width: 1920px;
+  margin: 0 auto;
+  display: flex;
+  background-color: #1C1C21;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.list_item {
+  align-items: center;
+  list-style-type: none;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.link_personal_area {
+  margin: 0 320px 0 0;
+}
+
+.nav {
+  margin: 0 0 0 320px;
+}
+
+.list {
+  display: flex;
+  padding: 0;
+}
+
+.text {
+  color: #8585AD;
+}
+
+.text_active {
+  color: #F2F2F3;
+}
+
+.logo {
+  margin: 0 289px 0 112px;
+}
