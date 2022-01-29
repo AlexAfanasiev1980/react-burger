@@ -1,5 +1,59 @@
+.menu {
+  max-height: 716px;
+  overflow: auto;
+  position: relative;
+}
+
+.menu::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f9f9fd;
+}
+
+.menu::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.menu::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.menu_item {
+  margin-top: 0;
+}
+
 .ingredients {
   margin: 0 0 0 380px;
   width: 600px;
   max-height: 912px;
+  overflow: hidden;
+}
+
+.list_item {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 272px;
+  position: relative;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 0;
+  margin-top: 0;
+  width: 568px;
+}
+
+.price_item {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  max-height: 120px;
 }
