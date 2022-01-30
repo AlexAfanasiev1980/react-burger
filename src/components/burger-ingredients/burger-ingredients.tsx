@@ -4,10 +4,10 @@ import Box, {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-bur
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 
-function Switch() {
+function Tabs() {
   const [current, setCurrent] = React.useState('one')
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={ingredientsStyles.tab}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
         Булки
       </Tab>
@@ -30,7 +30,7 @@ class BurgerIngredients extends React.Component<any, any> {
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
         <h1 className={`mt-10 mb-5 text_type_main-large`}>Соберите бургер</h1>
-        <Switch />
+        <Tabs />
         <div className={`mt-10 ${ingredientsStyles.menu}`}>
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
@@ -38,7 +38,7 @@ class BurgerIngredients extends React.Component<any, any> {
                 {this.props.dataCard.map((card:any, index:any) => {
                   if (card.type === 'bun') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={index}>
+                      <li className={ingredientsStyles.list_item} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
@@ -58,7 +58,7 @@ class BurgerIngredients extends React.Component<any, any> {
                 {this.props.dataCard.map((card:any, index:any) => {
                   if (card.type === 'sauce') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={index}>
+                      <li className={ingredientsStyles.list_item} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
@@ -77,7 +77,7 @@ class BurgerIngredients extends React.Component<any, any> {
                 {this.props.dataCard.map((card:any, index:any) => {
                   if (card.type === 'main') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={index}>
+                      <li className={ingredientsStyles.list_item} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 

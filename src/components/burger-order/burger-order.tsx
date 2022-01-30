@@ -7,9 +7,8 @@ import { isPropertySignature } from 'typescript';
 import points from '../../images/points.svg';
 import Subtract from '../../images/Subtract.svg'
 let sum = 0;
-// import PropTypes from 'prop-types';
 
-function RenderItem(props:any, any: any) {
+function BurgerItem(props:any, any: any) {
   return (
       <ConstructorElement
         type={props.typeMean}
@@ -21,7 +20,7 @@ function RenderItem(props:any, any: any) {
   )
 }
 
-class BurgerOrder extends React.Component<any, any> {
+class BurgerConstructor extends React.Component<any, any> {
 
   constructor(props:any) {
     super(props);
@@ -33,15 +32,13 @@ class BurgerOrder extends React.Component<any, any> {
         <div className={`mt-25`}>
           <ul className={`${orderStyles.list_locked} pl-4`}>
           {this.props.dataCard.map((card:any, index:any, arr:any) => {
-              let type = '';
+              let type = 'top';
               let locked;
-              (index===0)?type='top':(index===arr.length-1)?type='bottom':type='';
               if (card.type === 'bun') {
                 locked = true;
                 return (
-                  <li className={orderStyles.list_item} key={index}>
-                    <img src={points} alt="points" className={`mr-2`}/>
-                    <RenderItem dataCard={card} typeMean={type} isLocked={locked}/>
+                  <li className={orderStyles.list_item} key={card._id}>
+                    <BurgerItem dataCard={{...card, name: `${card.name} (верх)`}} typeMean={type} isLocked={locked} />
                   </li>
                 ) 
               }        
@@ -52,12 +49,11 @@ class BurgerOrder extends React.Component<any, any> {
               let type = '';
               let locked;
               sum = sum + card.price;
-              (index===0)?type='top':(index===arr.length-1)?type='bottom':type='';
               if (card.type !== 'bun') {
                 return (
-                  <li className={orderStyles.list_item} key={index}>
+                  <li className={orderStyles.list_item} key={card._id}>
                     <img src={points} alt="points" className={`mr-2`}/>
-                    <RenderItem dataCard={card} typeMean={type} isLocked={locked}/>
+                    <BurgerItem dataCard={card} typeMean={type} isLocked={locked}/>
                   </li>
                 )     
               }
@@ -65,10 +61,26 @@ class BurgerOrder extends React.Component<any, any> {
                      
             })}
           </ul>
+          <ul className={`${orderStyles.list_locked} pl-4`}>
+          {this.props.dataCard.map((card:any, index:any, arr:any) => {
+              let type = '';
+              let locked;
+              type='bottom';
+              if (card.type === 'bun') {
+                locked = true;
+                locked = true;
+                return (
+                  <li className={orderStyles.list_item} key={card._id}>
+                    <BurgerItem dataCard={{...card, name: `${card.name} (низ)`}} typeMean={type} isLocked={locked} />
+                  </li>
+                ) 
+              }        
+            })}
+          </ul>
           <div className={`mt-10 mr-4 ${orderStyles.accept_block}`}>
             <div className={`mr-10 ${orderStyles.sum_block}`}>
               <p className={`mr-2 text text_type_digits-medium`}>{sum}</p>
-              <img src={Subtract} alt="icon" style={{width: 33}}/>
+              <img src={Subtract} alt="icon" className={orderStyles.icon} />
             </div>
             <Button type="primary" size="medium">
               Оформить заказ
@@ -80,4 +92,4 @@ class BurgerOrder extends React.Component<any, any> {
   }
 }
 
-export default BurgerOrder;
+export default BurgerConstructor;
