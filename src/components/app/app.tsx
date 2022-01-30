@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import styleMain from './app.module.css';
 import Header from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-order/burger-order';
+import BurgerConstructor from '../burger-order/burger-constructor';
 import data from '../../utils/data';
 
 function App() {
@@ -17,5 +17,6 @@ function App() {
     </>
   );
 }
+
 
 export default App;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import orderStyles from './burger-order.module.css';
+import orderStyles from './burger-constructor.module.css';
 import Box, {Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {ConstructorElement, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
