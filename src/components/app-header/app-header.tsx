@@ -7,8 +7,7 @@ import Box from '@ya.praktikum/react-developer-burger-ui-components';
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
 
-class Header extends React.Component {
-  render() {
+function Header() {
     return (
       <header className={headerStyles.header}>
         <nav className={headerStyles.nav}>
@@ -34,7 +33,6 @@ class Header extends React.Component {
         </a>
       </header>
     );
-  }
-}
+  };
 
 export default Header;

@@ -1,7 +1,7 @@
 .order {
   width: 600px;
-  max-height: 912px;
   overflow: hidden;
+  height: 1000px;
 }
 
 .list_onlocked {

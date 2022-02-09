@@ -5,7 +5,7 @@ import {ConstructorElement, Button} from '@ya.praktikum/react-developer-burger-u
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import { isPropertySignature } from 'typescript';
 import points from '../../images/points.svg';
-import Subtract from '../../images/Subtract.svg'
+import Subtract from '../../images/Subtract.svg';
 let sum = 0;
 
 function BurgerItem(props:any, any: any) {
@@ -20,18 +20,13 @@ function BurgerItem(props:any, any: any) {
   )
 }
 
-class BurgerConstructor extends React.Component<any, any> {
+function BurgerConstructor(props:any) {
 
-  constructor(props:any) {
-    super(props);
-  }
-
-  render() {
     return (
       <section className={`ml-10 ${orderStyles.order}`}>
         <div className={`mt-25`}>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {this.props.dataCard.map((card:any, index:any, arr:any) => {
+          {props.dataCard.map((card:any, index:any, arr:any) => {
               let type = 'top';
               let locked;
               if (card.type === 'bun') {
@@ -45,7 +40,7 @@ class BurgerConstructor extends React.Component<any, any> {
             })}
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {this.props.dataCard.map((card:any, index:any, arr:any) => {
+            {props.dataCard.map((card:any, index:any, arr:any) => {
               let type = '';
               let locked;
               sum = sum + card.price;
@@ -62,7 +57,7 @@ class BurgerConstructor extends React.Component<any, any> {
             })}
           </ul>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {this.props.dataCard.map((card:any, index:any, arr:any) => {
+          {props.dataCard.map((card:any, index:any, arr:any) => {
               let type = '';
               let locked;
               type='bottom';
@@ -82,7 +77,7 @@ class BurgerConstructor extends React.Component<any, any> {
               <p className={`mr-2 text text_type_digits-medium`}>{sum}</p>
               <img src={Subtract} alt="icon" className={orderStyles.icon} />
             </div>
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" onClick={props.onClick}>
               Оформить заказ
             </Button>
           </div>
@@ -90,6 +85,5 @@ class BurgerConstructor extends React.Component<any, any> {
       </section>
     );
   }
-}
 
 export default BurgerConstructor;
