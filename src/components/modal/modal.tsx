@@ -1,54 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import * as React from 'react'
 import styleModal from './modal.module.css';
-import Close from '../../images/Vector(Stroke).svg';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 
-export default function Modal(props:any) {
+export interface StandardComponentProps {
+  onClose: () => void
+  data: {
+    calories?: number
+    carbohydrates?: number
+    fat?: number
+    image?: string
+    image_large?: string
+    image_mobile?: string
+    name?: string
+    price?: number
+    proteins?: number
+    type?: string
+    __v?: number
+    _id?: string
+  }
+  title?: string
+  children: React.ReactNode
+}
 
-    const modalRoot = document.getElementById('modal-root')!;
-    const { onClick, ingredients, data } = props;
+export default function Modal(props:StandardComponentProps) {
 
+    const modalRoot = document.getElementById('root')!;
+    const { onClose, data, title } = props;
     useEffect(() => {
+      
+      const handleEscClose = (e:any) => {
+        if (e.key === 'Escape') {
+          props.onClose();
+        };
+      }
+            
       window.addEventListener('keydown', handleEscClose);
    
       return () => {
-        window.addEventListener('keydown', handleEscClose);
+        window.removeEventListener('keydown', handleEscClose);
       }
-    }, []);
+    }, [props.onClose]);
 
-    const handleEscClose = (e:any) => {
-      if (e.key === 'Escape') {
-        props.onClick();
-    };
-  }
+    
 
     return ReactDOM.createPortal(
       ( 
         <>
+          <div className={styleModal.modal_container}>
           <div className={styleModal.modal}>
             <div className={styleModal.header}>
               <p className='text text_type_main-large'>
-                {props.ingredients && 'Детали ингредиента'}
+                {title}
               </p>
-              <button className={`${styleModal.buttonClose}`} onClick={onClick}>
-                <img src={Close} alt="button" />
+              <button className={`${styleModal.buttonClose}`} onClick={onClose}>
+                <CloseIcon type="primary" />
               </button>
             </div>
             <div className={styleModal.contentContainer}>
-              {!ingredients &&
-              <OrderDetails />}
-              {ingredients &&
-              <IngredientDetails data={data}/>}
+              {props.children}
             </div>
             
           </div>
-          <ModalOverlay onClick={onClick}/>
+          <ModalOverlay onClick={onClose}/>
+          </div>
         </>
       ), 
         modalRoot
     );
   
-  } 
+  }

@@ -1,14 +1,51 @@
 import React, { useState } from 'react';
 import orderStyles from './burger-constructor.module.css';
 import Box, {Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import {ConstructorElement, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import {ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import { isPropertySignature } from 'typescript';
 import points from '../../images/points.svg';
 import Subtract from '../../images/Subtract.svg';
 let sum = 0;
 
-function BurgerItem(props:any, any: any) {
+export interface BurgerConstructorProps {
+  dataCard: {
+    calories?: number
+    carbohydrates?: number
+    fat?: number
+    image?: string
+    image_large?: string
+    image_mobile?: string
+    name?: string
+    price?: number
+    proteins?: number
+    type?: string
+    __v?: number
+    _id?: string
+  }[]
+  onClick: () => void
+}
+
+export interface BurgerItemProps {
+  dataCard: {
+    calories: number
+    carbohydrates: number
+    fat: number
+    image: string
+    image_large: string
+    image_mobile: string
+    name: string
+    price: number
+    proteins: number
+    type: string
+    __v: number
+    _id: string
+  }
+  typeMean: any
+  isLocked?: boolean
+}
+
+function BurgerItem(props:BurgerItemProps) {
   return (
       <ConstructorElement
         type={props.typeMean}
@@ -20,7 +57,7 @@ function BurgerItem(props:any, any: any) {
   )
 }
 
-function BurgerConstructor(props:any) {
+function BurgerConstructor(props:BurgerConstructorProps) {
 
     return (
       <section className={`ml-10 ${orderStyles.order}`}>
@@ -47,13 +84,11 @@ function BurgerConstructor(props:any) {
               if (card.type !== 'bun') {
                 return (
                   <li className={orderStyles.list_item} key={card._id}>
-                    <img src={points} alt="points" className={`mr-2`}/>
+                    <DragIcon type="primary" />
                     <BurgerItem dataCard={card} typeMean={type} isLocked={locked}/>
                   </li>
                 )     
-              }
-                 
-                     
+              }       
             })}
           </ul>
           <ul className={`${orderStyles.list_locked} pl-4`}>

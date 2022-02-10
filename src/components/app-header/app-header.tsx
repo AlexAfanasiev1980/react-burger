@@ -7,7 +7,7 @@ import Box from '@ya.praktikum/react-developer-burger-ui-components';
 import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
 
-function Header() {
+function AppHeader() {
     return (
       <header className={headerStyles.header}>
         <nav className={headerStyles.nav}>
@@ -35,4 +35,4 @@ function Header() {
     );
   };
 
-export default Header;
+export default AppHeader;

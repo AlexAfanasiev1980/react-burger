@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import styleMain from './app.module.css';
-import Header from '../app-header/app-header';
+import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-order/burger-constructor';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
-const ingredientsUrl = 'https://norma.nomoreparties.space/api/ingredients';
+const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
 
 function App() {
 
@@ -16,7 +18,7 @@ function App() {
     data: []
   });
   const [visible, setVisible] = useState(false);
-  const [ingredients, setIngredients] = useState({
+  const [currentIngredient, setCurrentIngredient] = useState({
     isIngredient: false,
     dataCard: {}
   });
@@ -25,14 +27,15 @@ function App() {
     const getData = async() => {
       try {
       setState({ ...state, hasError: false, isLoading: true });
-      const res = await fetch(ingredientsUrl);
+      const res = await fetch(`${ingredientsUrl}ingredients`);
       if(!res.ok) {
-        throw new Error(`Fetching ${ingredientsUrl} failed.`);
+        throw new Error(`Fetching ${ingredientsUrl}ingredients failed.`);
       };
       const dataCards = await res.json();
       setState({ ...state, data: dataCards.data, isLoading: false });
       } catch(e) {
         console.log(e); 
+        setState({ ...state, isLoading: false });
       }
     }
     getData();
@@ -40,7 +43,7 @@ function App() {
 
   const openModalIngredients = (card:any) => {
     
-    setIngredients({...ingredients, isIngredient: true, dataCard: card});
+    setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
     handleOpenModal();
   }
 
@@ -50,21 +53,34 @@ function App() {
 
   const handleCloseModal = () => {
     setVisible(false);
-    setIngredients({...ingredients, isIngredient: false, dataCard: {}});
+    setCurrentIngredient({...currentIngredient, isIngredient: false, dataCard: {}});
   }
   
-  const modal = (
-    <Modal onClick={handleCloseModal} ingredients={ingredients.isIngredient} data={ingredients.dataCard}/> 
+  const modalOrder = (
+    <Modal onClose={handleCloseModal} data={currentIngredient.dataCard} title={''}> 
+      <OrderDetails/>
+    </Modal>
+);
+
+const modalIngredient = (
+  <Modal onClose={handleCloseModal} data={currentIngredient.dataCard} title={'Детали ингредиента'}> 
+    <IngredientDetails data={currentIngredient.dataCard}/>
+  </Modal>
 );
 
   return (
     <>
-      <Header />
+      <AppHeader />
       <main className={styleMain.main}>
         <BurgerIngredients dataCard={state.data} onClick={openModalIngredients}/>
         <BurgerConstructor dataCard={state.data} onClick={handleOpenModal}/>
       </main>
-      {visible && modal}
+      {visible && 
+      !currentIngredient.isIngredient && 
+      modalOrder}
+      {visible && 
+      currentIngredient.isIngredient && 
+      modalIngredient}
     </>
   );
 }

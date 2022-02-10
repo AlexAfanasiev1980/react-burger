@@ -3,7 +3,6 @@ import styleIngredient from './ingredient-details.module.css';
 
 export default function IngredientDetails(props:any) {
 const dataCard = props.data;
-console.log(dataCard);
 
   return (
     <>
