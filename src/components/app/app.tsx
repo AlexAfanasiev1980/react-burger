@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import styleMain from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -9,6 +8,23 @@ import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
+
+interface FunctionProps {
+  card: {
+    calories?: number
+    carbohydrates?: number
+    fat?: number
+    image?: string
+    image_large?: string
+    image_mobile?: string
+    name?: string
+    price?: number
+    proteins?: number
+    type?: string
+    __v?: number
+    _id?: string
+  }
+}
 
 function App() {
 
@@ -41,7 +57,7 @@ function App() {
     getData();
   }, []);
 
-  const openModalIngredients = (card:any) => {
+  const openModalIngredients = (card:FunctionProps) => {
     
     setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
     handleOpenModal();
@@ -57,13 +73,13 @@ function App() {
   }
   
   const modalOrder = (
-    <Modal onClose={handleCloseModal} data={currentIngredient.dataCard} title={''}> 
+    <Modal onClose={handleCloseModal} title={''}> 
       <OrderDetails/>
     </Modal>
 );
 
 const modalIngredient = (
-  <Modal onClose={handleCloseModal} data={currentIngredient.dataCard} title={'Детали ингредиента'}> 
+  <Modal onClose={handleCloseModal} title={'Детали ингредиента'}> 
     <IngredientDetails data={currentIngredient.dataCard}/>
   </Modal>
 );

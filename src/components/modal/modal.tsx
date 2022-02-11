@@ -5,30 +5,16 @@ import styleModal from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-export interface StandardComponentProps {
+interface ModalProps {
   onClose: () => void
-  data: {
-    calories?: number
-    carbohydrates?: number
-    fat?: number
-    image?: string
-    image_large?: string
-    image_mobile?: string
-    name?: string
-    price?: number
-    proteins?: number
-    type?: string
-    __v?: number
-    _id?: string
-  }
   title?: string
   children: React.ReactNode
 }
 
-export default function Modal(props:StandardComponentProps) {
+export default function Modal(props:ModalProps) {
 
     const modalRoot = document.getElementById('root')!;
-    const { onClose, data, title } = props;
+    const { onClose, title } = props;
     useEffect(() => {
       
       const handleEscClose = (e:any) => {

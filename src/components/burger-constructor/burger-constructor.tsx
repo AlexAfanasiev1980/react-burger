@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import orderStyles from './burger-constructor.module.css';
-import Box, {Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import {ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import fonts from '@ya.praktikum/react-developer-burger-ui-components';
-import { isPropertySignature } from 'typescript';
-import points from '../../images/points.svg';
+import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Subtract from '../../images/Subtract.svg';
 let sum = 0;
 
-export interface BurgerConstructorProps {
+interface BurgerConstructorProps {
   dataCard: {
     calories?: number
     carbohydrates?: number
@@ -26,7 +22,7 @@ export interface BurgerConstructorProps {
   onClick: () => void
 }
 
-export interface BurgerItemProps {
+interface BurgerItemProps {
   dataCard: {
     calories: number
     carbohydrates: number
@@ -41,7 +37,7 @@ export interface BurgerItemProps {
     __v: number
     _id: string
   }
-  typeMean: any
+  typeMean: "top" | "bottom" | undefined
   isLocked?: boolean
 }
 
@@ -63,45 +59,41 @@ function BurgerConstructor(props:BurgerConstructorProps) {
       <section className={`ml-10 ${orderStyles.order}`}>
         <div className={`mt-25`}>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {props.dataCard.map((card:any, index:any, arr:any) => {
-              let type = 'top';
+          {props.dataCard.map((card:any, index:number, arr:{}[]) => {
               let locked;
               if (card.type === 'bun') {
                 locked = true;
                 return (
                   <li className={orderStyles.list_item} key={card._id}>
-                    <BurgerItem dataCard={{...card, name: `${card.name} (верх)`}} typeMean={type} isLocked={locked} />
+                    <BurgerItem dataCard={{...card, name: `${card.name} (верх)`}} typeMean='top' isLocked={locked} />
                   </li>
                 ) 
               }        
             })}
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {props.dataCard.map((card:any, index:any, arr:any) => {
-              let type = '';
+            {props.dataCard.map((card:any, index:number, arr:{}[]) => {
               let locked;
               sum = sum + card.price;
               if (card.type !== 'bun') {
                 return (
                   <li className={orderStyles.list_item} key={card._id}>
                     <DragIcon type="primary" />
-                    <BurgerItem dataCard={card} typeMean={type} isLocked={locked}/>
+                    <BurgerItem dataCard={card} typeMean={undefined} isLocked={locked}/>
                   </li>
                 )     
               }       
             })}
           </ul>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {props.dataCard.map((card:any, index:any, arr:any) => {
-              let type = '';
+          {props.dataCard.map((card:any, index:number, arr:{}[]) => {
               let locked;
-              type='bottom';
               if (card.type === 'bun') {
                 locked = true;
                 locked = true;
                 return (
                   <li className={orderStyles.list_item} key={card._id}>
-                    <BurgerItem dataCard={{...card, name: `${card.name} (низ)`}} typeMean={type} isLocked={locked} />
+                    <BurgerItem dataCard={{...card, name: `${card.name} (низ)`}} typeMean='bottom' isLocked={locked} />
                   </li>
                 ) 
               }        

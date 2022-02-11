@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import styleOrder from './order-details.module.css';
-import Gif from '../../images/done.svg';
+import Gif from '../../images/done1.svg';
 
-export default function OrderDetails(props:any) {
+export default function OrderDetails() {
 
   return (
     <>

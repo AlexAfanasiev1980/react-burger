@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styleIngredient from './ingredient-details.module.css';
 
-export default function IngredientDetails(props:any) {
+interface IngredientProps {
+  data: {
+    calories?: number
+    carbohydrates?: number
+    fat?: number
+    image?: string
+    image_large?: string
+    image_mobile?: string
+    name?: string
+    price?: number
+    proteins?: number
+    type?: string
+    __v?: number
+    _id?: string
+  }
+}
+
+export default function IngredientDetails(props:IngredientProps) {
 const dataCard = props.data;
 
   return (

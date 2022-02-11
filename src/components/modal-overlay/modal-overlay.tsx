@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styleModal from './modal-overlay.module.css';
 
-export default function ModalOverlay(props:any) {
+interface ModalOverlayProps {
+  onClick: () => void
+}
+
+export default function ModalOverlay(props:ModalOverlayProps) {
 
   return (
     <div className={styleModal.modalOverlay} onClick={props.onClick}>
