@@ -4,39 +4,28 @@ import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-develo
 import Subtract from '../../images/Subtract.svg';
 let sum = 0;
 
+interface Ingredient {
+  calories?: number
+  carbohydrates?: number
+  fat?: number
+  image?: string
+  image_large: string
+  image_mobile?: string
+  name: string
+  price: number
+  proteins?: number
+  type?: string
+  __v?: number
+  _id?: string
+}
+
 interface BurgerConstructorProps {
-  dataCard: {
-    calories?: number
-    carbohydrates?: number
-    fat?: number
-    image?: string
-    image_large?: string
-    image_mobile?: string
-    name?: string
-    price?: number
-    proteins?: number
-    type?: string
-    __v?: number
-    _id?: string
-  }[]
+  dataCard: Ingredient[]
   onClick: () => void
 }
 
 interface BurgerItemProps {
-  dataCard: {
-    calories: number
-    carbohydrates: number
-    fat: number
-    image: string
-    image_large: string
-    image_mobile: string
-    name: string
-    price: number
-    proteins: number
-    type: string
-    __v: number
-    _id: string
-  }
+  dataCard: Ingredient
   typeMean: "top" | "bottom" | undefined
   isLocked?: boolean
 }
@@ -59,7 +48,7 @@ function BurgerConstructor(props:BurgerConstructorProps) {
       <section className={`ml-10 ${orderStyles.order}`}>
         <div className={`mt-25`}>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {props.dataCard.map((card:any, index:number, arr:{}[]) => {
+          {props.dataCard.map((card: Ingredient, index: number, arr: Ingredient[]) => {
               let locked;
               if (card.type === 'bun') {
                 locked = true;
@@ -72,7 +61,7 @@ function BurgerConstructor(props:BurgerConstructorProps) {
             })}
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {props.dataCard.map((card:any, index:number, arr:{}[]) => {
+            {props.dataCard.map((card: Ingredient, index:number, arr:Ingredient[]) => {
               let locked;
               sum = sum + card.price;
               if (card.type !== 'bun') {
@@ -86,7 +75,7 @@ function BurgerConstructor(props:BurgerConstructorProps) {
             })}
           </ul>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {props.dataCard.map((card:any, index:number, arr:{}[]) => {
+          {props.dataCard.map((card: Ingredient, index:number, arr:Ingredient[]) => {
               let locked;
               if (card.type === 'bun') {
                 locked = true;

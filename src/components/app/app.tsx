@@ -9,8 +9,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
 
-interface FunctionProps {
-  card: {
+interface Card {
     calories?: number
     carbohydrates?: number
     fat?: number
@@ -23,7 +22,6 @@ interface FunctionProps {
     type?: string
     __v?: number
     _id?: string
-  }
 }
 
 function App() {
@@ -57,7 +55,7 @@ function App() {
     getData();
   }, []);
 
-  const openModalIngredients = (card:FunctionProps) => {
+  const openModalIngredients = (card: Card) => {
     
     setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
     handleOpenModal();

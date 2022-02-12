@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
-interface BurgerProps {
-  dataCard: {
-    calories?: number
+
+interface Ingredient {
+  calories?: number
     carbohydrates?: number
     fat?: number
     image?: string
@@ -16,8 +16,11 @@ interface BurgerProps {
     type?: string
     __v?: number
     _id?: string
-  }[]
-  onClick: (card:any) => void
+}
+
+interface BurgerProps {
+  dataCard: Ingredient[]
+  onClick: (card:Ingredient) => void
 }
 
 function Tabs() {
@@ -48,7 +51,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:any, index:number) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'bun') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
@@ -68,7 +71,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:any, index:number) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'sauce') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
@@ -87,7 +90,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:any, index:number) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'main') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
