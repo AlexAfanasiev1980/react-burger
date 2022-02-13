@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
-import Box, {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import fonts from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+
+
+interface Ingredient {
+  calories?: number
+    carbohydrates?: number
+    fat?: number
+    image?: string
+    image_large?: string
+    image_mobile?: string
+    name?: string
+    price?: number
+    proteins?: number
+    type?: string
+    __v?: number
+    _id?: string
+}
+
+interface BurgerProps {
+  dataCard: Ingredient[]
+  onClick: (card:Ingredient) => void
+}
 
 function Tabs() {
-  const [current, setCurrent] = React.useState('one')
+  const [current, setCurrent] = useState('one')
   return (
     <div className={ingredientsStyles.tab}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -21,12 +40,9 @@ function Tabs() {
   )
 }
 
-class BurgerIngredients extends React.Component<any, any> {
-  constructor(props:any) {
-    super(props);
-  }
+function BurgerIngredients(props:BurgerProps) {
+    
 
-  render() {
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
         <h1 className={`mt-10 mb-5 text_type_main-large`}>Соберите бургер</h1>
@@ -35,10 +51,10 @@ class BurgerIngredients extends React.Component<any, any> {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {this.props.dataCard.map((card:any, index:any) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'bun') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={card._id}>
+                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
@@ -55,10 +71,10 @@ class BurgerIngredients extends React.Component<any, any> {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {this.props.dataCard.map((card:any, index:any) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'sauce') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={card._id}>
+                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
@@ -74,10 +90,10 @@ class BurgerIngredients extends React.Component<any, any> {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {this.props.dataCard.map((card:any, index:any) => {
+                {props.dataCard.map((card:Ingredient, index:number) => {
                   if (card.type === 'main') {
                     return (
-                      <li className={ingredientsStyles.list_item} key={card._id}>
+                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
                         <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
                         <p className={`${ingredientsStyles.price_item}`}> 
                         <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
@@ -93,7 +109,6 @@ class BurgerIngredients extends React.Component<any, any> {
         </div> 
       </section>
     );
-  }
-}
+  };
 
 export default BurgerIngredients;

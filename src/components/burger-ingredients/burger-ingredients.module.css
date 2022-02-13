@@ -24,7 +24,6 @@
 .ingredients {
   margin: 0;
   width: 600px;
-  max-height: 912px;
   overflow: hidden;
 }
 
@@ -37,6 +36,7 @@
   align-items: center;
   width: 272px;
   position: relative;
+  cursor: pointer;
 }
 
 .list {

@@ -1,0 +1,14 @@
+.nutritional_value {
+  list-style-type: none;
+  margin-top: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 125px repeat(3, 1fr);
+  gap: 20px;
+  color: #8585AD;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+}

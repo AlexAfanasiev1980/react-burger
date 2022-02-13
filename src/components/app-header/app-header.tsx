@@ -3,12 +3,9 @@ import headerStyles from './app-header.module.css';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Box from '@ya.praktikum/react-developer-burger-ui-components';
-import fonts from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
 
-class Header extends React.Component {
-  render() {
+function AppHeader() {
     return (
       <header className={headerStyles.header}>
         <nav className={headerStyles.nav}>
@@ -34,7 +31,6 @@ class Header extends React.Component {
         </a>
       </header>
     );
-  }
-}
+  };
 
-export default Header;
+export default AppHeader;
