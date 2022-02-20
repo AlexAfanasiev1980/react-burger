@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { DataApiContext } from '../../services/dataApi';
 
 interface Ingredient {
   calories?: number
@@ -19,9 +19,14 @@ interface Ingredient {
 }
 
 interface BurgerProps {
-  dataCard: Ingredient[]
   onClick: (card:Ingredient) => void
 }
+
+// const bun = useRef<HTMLInputElement>(null);
+// const main = useRef<HTMLInputElement>(null);
+// const sauce = useRef<HTMLInputElement>(null);
+
+
 
 function Tabs() {
   const [current, setCurrent] = useState('one')
@@ -41,7 +46,7 @@ function Tabs() {
 }
 
 function BurgerIngredients(props:BurgerProps) {
-    
+    const dataCards = useContext(DataApiContext);
 
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
@@ -51,7 +56,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:Ingredient, index:number) => {
+                {dataCards.map((card:Ingredient, index:number) => {
                   if (card.type === 'bun') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
@@ -71,7 +76,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:Ingredient, index:number) => {
+                {dataCards.map((card:Ingredient, index:number) => {
                   if (card.type === 'sauce') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
@@ -90,7 +95,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {props.dataCard.map((card:Ingredient, index:number) => {
+                {dataCards.map((card:Ingredient, index:number) => {
                   if (card.type === 'main') {
                     return (
                       <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
@@ -110,5 +115,12 @@ function BurgerIngredients(props:BurgerProps) {
       </section>
     );
   };
+
+  // function scrollToRef(e:any, type:string) {
+  //   setCurrent;
+    // if (type==='bun') {
+    //   // bun.current.scrollIntoView();
+    // }
+  // }
 
 export default BurgerIngredients;
