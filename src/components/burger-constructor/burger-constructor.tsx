@@ -3,7 +3,6 @@ import orderStyles from './burger-constructor.module.css';
 import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Subtract from '../../images/Subtract.svg';
 import { DataApiContext } from '../../services/dataApi';
-let sum = 0;
 
 interface Ingredient {
   calories?: number
@@ -36,6 +35,7 @@ interface BurgerItemProps {
 }
 
 export type ReducerTypeData = {
+  type: string
   card: Ingredient[]
   price: number
 }
@@ -58,8 +58,9 @@ function BurgerItem(props:BurgerItemProps) {
 }
 
 function BurgerConstructor(props:BurgerConstructorProps) {
+  
   const {onClick, state, dispatch} = props;
-  sum=0;
+  let sum=0;
   let cardData:Ingredient[] = [];
   const dataCards = useContext(DataApiContext);
   
@@ -76,28 +77,21 @@ function BurgerConstructor(props:BurgerConstructorProps) {
       }
     })
     }
-    setState();
-    dispatch({...state, card: cardData, price: sum});
+    setState(); 
+    dispatch({type: "plus", card: cardData, price: sum});
   }, [dataCards]);
-
-
-
+  
+  const [bun] = state.cards.filter((card:Ingredient) => card._id === '60d3b41abdacab0026a733c6');
+  
     return (
       <section className={`ml-10 ${orderStyles.order}`}>
         <div className={`mt-25`}>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {dataCards.map((card: Ingredient, index: number, arr: Ingredient[]) => {
-              let locked;
-              if (card.type === 'bun' && card._id === '60d3b41abdacab0026a733c6') {
-                locked = true;
-               
-                return (
-                  <li className={orderStyles.list_item} key={card._id}>
-                    <BurgerItem dataCard={{...card, name: `${card.name} (верх)`}} typeMean='top' isLocked={locked} />
-                  </li>
-                ) 
-              }        
-            })}
+         { bun &&
+            <li className={orderStyles.list_item} key={bun._id}>
+              <BurgerItem dataCard={{...bun, name: `${bun.name} (верх)`}} typeMean='top' isLocked={true} />
+            </li>      
+         }  
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
             {dataCards.map((card: Ingredient, index:number, arr:Ingredient[]) => {
@@ -113,17 +107,11 @@ function BurgerConstructor(props:BurgerConstructorProps) {
             })}
           </ul>
           <ul className={`${orderStyles.list_locked} pl-4`}>
-          {dataCards.map((card: Ingredient, index:number, arr:Ingredient[]) => {
-              let locked;
-              if (card.type === 'bun' && card._id === '60d3b41abdacab0026a733c6') {
-                locked = true;
-                return (
-                  <li className={orderStyles.list_item} key={card._id}>
-                    <BurgerItem dataCard={{...card, name: `${card.name} (низ)`}} typeMean='bottom' isLocked={locked} />
-                  </li>
-                ) 
-              }        
-            })}
+          {bun &&
+            <li className={orderStyles.list_item} key={bun._id}>
+              <BurgerItem dataCard={{...bun, name: `${bun.name} (низ)`}} typeMean='bottom' isLocked={true} />
+            </li>   
+          }
           </ul>
           <div className={`mt-10 mr-4 ${orderStyles.accept_block}`}>
             <div className={`mr-10 ${orderStyles.sum_block}`}>

@@ -18,15 +18,14 @@ interface Ingredient {
     _id?: string
 }
 
+interface IngredientProps {
+  onClick: (card:Ingredient) => void
+  card: Ingredient
+}
+
 interface BurgerProps {
   onClick: (card:Ingredient) => void
 }
-
-// const bun = useRef<HTMLInputElement>(null);
-// const main = useRef<HTMLInputElement>(null);
-// const sauce = useRef<HTMLInputElement>(null);
-
-
 
 function Tabs() {
   const [current, setCurrent] = useState('one')
@@ -45,8 +44,27 @@ function Tabs() {
   )
 }
 
+function Ingredient(props:IngredientProps) {
+  const {onClick, card} = props;
+  return (
+    <li className={ingredientsStyles.list_item} onClick={() => onClick(card)}>
+      <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
+      <p className={`${ingredientsStyles.price_item}`}> 
+      <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
+      <CurrencyIcon type="primary" /> </p>
+      <h3 className={`mt-1 text_type_main-small`}>{card.name}</h3>
+      {(card.type === 'bun') &&
+        <Counter count={1} size="default" />
+      }
+    </li>
+  )
+}
+
 function BurgerIngredients(props:BurgerProps) {
     const dataCards = useContext(DataApiContext);
+    const bun = dataCards.filter((card:Ingredient) => card.type==='bun');
+    const sauce = dataCards.filter((card:Ingredient) => card.type==='sauce');
+    const main = dataCards.filter((card:Ingredient) => card.type==='main');
 
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
@@ -56,58 +74,30 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {dataCards.map((card:Ingredient, index:number) => {
-                  if (card.type === 'bun') {
-                    return (
-                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
-                        <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
-                        <p className={`${ingredientsStyles.price_item}`}> 
-                        <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
-                        <CurrencyIcon type="primary" /> </p>
-                        <h3 className={`mt-1 text_type_main-small`}> {card.name} </h3>
-                        <Counter count={1} size="default" />
-                      </li>
-                    )
-                  }  
-               
+                {bun.map((card:Ingredient, index:number) => {
+                  return (
+                    <Ingredient onClick={props.onClick} card={card} key={card._id}/>
+                  )
                 })}
               </ul>
           </div>
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {dataCards.map((card:Ingredient, index:number) => {
-                  if (card.type === 'sauce') {
-                    return (
-                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
-                        <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
-                        <p className={`${ingredientsStyles.price_item}`}> 
-                        <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
-                        <CurrencyIcon type="primary" /> </p>
-                        <h3 className={`mt-1 text_type_main-small`}> {card.name} </h3>
-                      </li>
-                    )
-                  }  
-               
+                {sauce.map((card:Ingredient, index:number) => {
+                  return (
+                    <Ingredient onClick={props.onClick} card={card} key={card._id}/>
+                  ) 
                 })}
               </ul>
           </div>
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {dataCards.map((card:Ingredient, index:number) => {
-                  if (card.type === 'main') {
-                    return (
-                      <li className={ingredientsStyles.list_item} onClick={() => props.onClick(card)} key={card._id}>
-                        <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
-                        <p className={`${ingredientsStyles.price_item}`}> 
-                        <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
-                        <CurrencyIcon type="primary" /> </p>
-                        <h3 className={`mt-1 text_type_main-small`}> {card.name} </h3>
-                      </li>
-                    )
-                  }  
-               
+                {main.map((card:Ingredient, index:number) => {
+                  return (
+                    <Ingredient onClick={props.onClick} card={card} key={card._id}/>
+                  )
                 })}
               </ul>
           </div>
@@ -115,12 +105,5 @@ function BurgerIngredients(props:BurgerProps) {
       </section>
     );
   };
-
-  // function scrollToRef(e:any, type:string) {
-  //   setCurrent;
-    // if (type==='bun') {
-    //   // bun.current.scrollIntoView();
-    // }
-  // }
 
 export default BurgerIngredients;

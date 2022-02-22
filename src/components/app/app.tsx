@@ -32,15 +32,19 @@ const initialState = {
 }
 
 function reducer(state: StateTypeData , action: ReducerTypeData) {
-  return {
-    cards: action.card,
-    price: action.price
+  switch (action.type) {
+    case "plus":
+      return {
+        cards: action.card,
+        price: action.price
+      };
+    default: 
+    return state;
   }
 }
 
 
 function App() {
-
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
@@ -114,8 +118,8 @@ function App() {
   }
   
   const modalOrder = (
-    <Modal onClose={handleCloseModal} title={''}> 
-      <OrderDetails numOrder={numOrder}/>
+    <Modal onClose={handleCloseModal} title=''> 
+      <OrderDetails numOrder = {numOrder}/>
     </Modal>
 );
 

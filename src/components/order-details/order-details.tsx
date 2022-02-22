@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styleOrder from './order-details.module.css';
 import Gif from '../../images/done1.svg';
 
-// interface numOrder {
-//   numOrder: {
-//     numOrder?: number
-//   }
-// }
+interface Order {
+  numOrder: number
+}
 
-export default function OrderDetails(props:any) {
-  // console.log(typeof props);
+export default function OrderDetails(props:Order) {
   return (
     <>
       <h2 className={`${styleOrder.numberOrder} mt-4 mb-8 text text_type_digits-large`}>{props.numOrder}</h2>
@@ -19,5 +16,4 @@ export default function OrderDetails(props:any) {
       <p className={`${styleOrder.bottomText} text text_type_main-default mb-30`}>Дождитесь готовности на орбитальной станции</p>
     </>  
   )
-  
 } 
