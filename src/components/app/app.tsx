@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styleMain from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -6,6 +6,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { DataApiContext } from '../../services/dataApi';
+import {ReducerTypeData, StateTypeData} from '../burger-constructor/burger-constructor';
 
 const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
 
@@ -24,8 +26,25 @@ interface Card {
     _id?: string
 }
 
-function App() {
+const initialState = {
+  cards: [],
+  price: 0
+}
 
+function reducer(state: StateTypeData , action: ReducerTypeData) {
+  switch (action.type) {
+    case "plus":
+      return {
+        cards: action.card,
+        price: action.price
+      };
+    default: 
+    return state;
+  }
+}
+
+
+function App() {
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
@@ -36,6 +55,8 @@ function App() {
     isIngredient: false,
     dataCard: {}
   });
+  const [numOrder, setNumOrder] = useState(0);
+  const [stateReducer, dispatch] = useReducer(reducer, initialState);
   
   useEffect(() => {
     const getData = async() => {
@@ -56,8 +77,34 @@ function App() {
   }, []);
 
   const openModalIngredients = (card: Card) => {
-    
     setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
+    handleOpenModal();
+  }
+
+  const openModalOrder = () => {
+    const cardsId = stateReducer.cards.map((card:Card) => card._id);
+    const params = {
+      method: 'POST',
+      headers: {
+    'Content-Type': 'application/json'
+  },
+      body: JSON.stringify({
+        "ingredients": cardsId
+      })
+    }
+    const getNumberOrder = async() => {
+      try {
+      const res = await fetch(`${ingredientsUrl}orders`, params);
+      if(!res.ok) {
+        throw new Error(`Fetching ${ingredientsUrl}orders failed.`);
+      };
+      const orderObject = await res.json();
+      setNumOrder(orderObject.order.number);
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    getNumberOrder();
     handleOpenModal();
   }
 
@@ -71,8 +118,8 @@ function App() {
   }
   
   const modalOrder = (
-    <Modal onClose={handleCloseModal} title={''}> 
-      <OrderDetails/>
+    <Modal onClose={handleCloseModal} title=''> 
+      <OrderDetails numOrder = {numOrder}/>
     </Modal>
 );
 
@@ -86,8 +133,10 @@ const modalIngredient = (
     <>
       <AppHeader />
       <main className={styleMain.main}>
-        <BurgerIngredients dataCard={state.data} onClick={openModalIngredients}/>
-        <BurgerConstructor dataCard={state.data} onClick={handleOpenModal}/>
+        <DataApiContext.Provider value = {state.data}>
+          <BurgerIngredients onClick={openModalIngredients}/>
+          <BurgerConstructor onClick={openModalOrder} state={stateReducer} dispatch={dispatch}/>
+        </DataApiContext.Provider>
       </main>
       {visible && 
       !currentIngredient.isIngredient && 
@@ -98,6 +147,5 @@ const modalIngredient = (
     </>
   );
 }
-
 
 export default App;
