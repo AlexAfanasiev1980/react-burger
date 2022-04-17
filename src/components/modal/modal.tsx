@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as React from 'react'
 import styleModal from './modal.module.css';
@@ -19,7 +19,7 @@ export default function Modal(props:ModalProps) {
       
       const handleEscClose = (e:any) => {
         if (e.key === 'Escape') {
-          props.onClose();
+          onClose();
         };
       }
             
@@ -28,7 +28,7 @@ export default function Modal(props:ModalProps) {
       return () => {
         window.removeEventListener('keydown', handleEscClose);
       }
-    }, [props.onClose]);
+    }, [onClose]);
 
     
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styleIngredient from './ingredient-details.module.css';
 
 interface IngredientProps {
@@ -23,7 +23,7 @@ const dataCard = props.data;
 
   return (
     <>
-      <img src={dataCard.image_large} alt="image" className='mb-4' />
+      <img src={dataCard.image_large} alt="icon" className='mb-4' />
       <h2 className={`${styleIngredient.title} text text_type_main-large mb-8`}>{dataCard.name}</h2>
       <ul className={`${styleIngredient.nutritional_value} mb-15`}>
         <li className={styleIngredient.list_item}>

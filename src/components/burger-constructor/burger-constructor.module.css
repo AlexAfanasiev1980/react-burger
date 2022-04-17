@@ -47,13 +47,13 @@
 
 .accept_block {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .sum_block {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   min-width: 150px;
 }
 
