@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styleOrder from './order-details.module.css';
 import Gif from '../../images/done1.svg';
 

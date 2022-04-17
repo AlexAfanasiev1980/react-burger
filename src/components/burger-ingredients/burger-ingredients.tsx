@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import { DataApiContext } from '../../services/dataApi';
@@ -48,7 +48,7 @@ function Ingredient(props:IngredientProps) {
   const {onClick, card} = props;
   return (
     <li className={ingredientsStyles.list_item} onClick={() => onClick(card)}>
-      <img src={card.image} alt="image" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
+      <img src={card.image} alt="icon" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
       <p className={`${ingredientsStyles.price_item}`}> 
       <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
       <CurrencyIcon type="primary" /> </p>
