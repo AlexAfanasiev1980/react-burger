@@ -6,6 +6,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { COMPLETION_INGREDIENTS } from '../../services/actions/index';
 import { DataApiContext } from '../../services/dataApi';
 import { ReducerTypeData, StateTypeData } from '../burger-constructor/burger-constructor';
 
@@ -45,6 +47,7 @@ function reducer(state: StateTypeData , action: ReducerTypeData) {
 
 
 function App() {
+  const dispatch1 = useDispatch();
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
@@ -68,6 +71,10 @@ function App() {
       };
       const dataCards = await res.json();
       setState({ ...state, data: dataCards.data, isLoading: false });
+      dispatch1({
+        type: COMPLETION_INGREDIENTS,
+        data: dataCards.data
+      });
       } catch(e) {
         console.log(e); 
         setState({ ...state, isLoading: false });
@@ -75,6 +82,13 @@ function App() {
     }
     getData();
   }, []);
+
+  const dataIngredients = useSelector((store:any) => 
+    store.baseIngredients, shallowEqual);
+
+    
+    console.log(dataIngredients);
+ 
 
   const openModalIngredients = (card: Card) => {
     setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
