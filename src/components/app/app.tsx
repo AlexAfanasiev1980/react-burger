@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState } from 'react';
 import styleMain from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -6,12 +6,13 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { COMPLETION_INGREDIENTS } from '../../services/actions/index';
-import { DataApiContext } from '../../services/dataApi';
-import { ReducerTypeData, StateTypeData } from '../burger-constructor/burger-constructor';
-
-const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
+import { useDispatch, useSelector } from 'react-redux';
+import { VIEWED_INGREDIENT } from '../../services/actions/index';
+import { ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
+import { ingredientsUrl } from '../../services/actions/index';
+import { RootState } from '../../services/reducers';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 interface Card {
     calories?: number
@@ -28,75 +29,35 @@ interface Card {
     _id?: string
 }
 
-const initialState = {
-  cards: [],
-  price: 0
-}
-
-function reducer(state: StateTypeData , action: ReducerTypeData) {
-  switch (action.type) {
-    case "plus":
-      return {
-        cards: action.card,
-        price: action.price
-      };
-    default: 
-    return state;
-  }
-}
-
-
 function App() {
-  const dispatch1 = useDispatch();
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: []
-  });
+
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState({
     isIngredient: false,
-    dataCard: {}
   });
   const [numOrder, setNumOrder] = useState(0);
-  const [stateReducer, dispatch] = useReducer(reducer, initialState);
-  
-  useEffect(() => {
-    const getData = async() => {
-      try {
-      setState({ ...state, hasError: false, isLoading: true });
-      const res = await fetch(`${ingredientsUrl}ingredients`);
-      if(!res.ok) {
-        throw new Error(`Fetching ${ingredientsUrl}ingredients failed.`);
-      };
-      const dataCards = await res.json();
-      setState({ ...state, data: dataCards.data, isLoading: false });
-      dispatch1({
-        type: COMPLETION_INGREDIENTS,
-        data: dataCards.data
-      });
-      } catch(e) {
-        console.log(e); 
-        setState({ ...state, isLoading: false });
-      }
-    }
-    getData();
-  }, []);
-
-  const dataIngredients = useSelector((store:any) => 
-    store.baseIngredients, shallowEqual);
-
-    
-    console.log(dataIngredients);
- 
+  const cards = useSelector((store:RootState) => {
+    return store.ingredient.baseIngredients
+  });
+  const selectCards = useSelector((store:RootState) => {
+    return store.ingredient.selectedIngredients
+  });
+  const viewIngredient = useSelector((store:RootState) => {
+    return store.ingredient.viewIngredient
+  });
 
   const openModalIngredients = (card: Card) => {
-    setCurrentIngredient({...currentIngredient, isIngredient: true, dataCard: card});
+    dispatch({
+      type: VIEWED_INGREDIENT,
+      payload: card
+    })
+    setCurrentIngredient({...currentIngredient, isIngredient: true});
     handleOpenModal();
   }
 
   const openModalOrder = () => {
-    const cardsId = stateReducer.cards.map((card:Card) => card._id);
+    const cardsId = cards.map((card:Card) => card._id);
     const params = {
       method: 'POST',
       headers: {
@@ -128,7 +89,12 @@ function App() {
 
   const handleCloseModal = () => {
     setVisible(false);
-    setCurrentIngredient({...currentIngredient, isIngredient: false, dataCard: {}});
+    // setCurrentIngredient({...currentIngredient, isIngredient: false, dataCard: {}});
+    setCurrentIngredient({...currentIngredient, isIngredient: false});
+    dispatch({
+      type: VIEWED_INGREDIENT,
+      payload: {}
+    });
   }
   
   const modalOrder = (
@@ -139,19 +105,46 @@ function App() {
 
 const modalIngredient = (
   <Modal onClose={handleCloseModal} title={'Детали ингредиента'}> 
-    <IngredientDetails data={currentIngredient.dataCard}/>
+    <IngredientDetails data={viewIngredient}/>
   </Modal>
 );
+
+const handleDrop = (item:any) => {
+  const element = selectCards.filter((element:Card) => element.type === 'bun');
+  const typeItem = cards.filter((element:Card) => element._id === item.id)[0].type;
+  if (element.length !== 0 &&  typeItem === 'bun') {
+    dispatch({
+      type: REPLACE_ITEM,
+      payload: cards.filter((element:Card) => element._id === item.id)
+    });
+  } else {
+    dispatch({
+      type: ADD_ITEM,
+      payload: cards.filter((element:Card) => element._id === item.id)
+    });
+  }
+};
+
+const deleteItem = (index:any) => {
+  dispatch({
+    type: DELETE_ITEM,
+    payload: selectCards.filter((element:Card, indexElement:number) => indexElement !== index)
+  });
+}
 
   return (
     <>
       <AppHeader />
-      <main className={styleMain.main}>
-        <DataApiContext.Provider value = {state.data}>
-          <BurgerIngredients onClick={openModalIngredients}/>
-          <BurgerConstructor onClick={openModalOrder} state={stateReducer} dispatch={dispatch}/>
-        </DataApiContext.Provider>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styleMain.main}>
+            <BurgerIngredients onClick={openModalIngredients}/>
+            <BurgerConstructor 
+              onClick={openModalOrder} 
+              onDropHandler={handleDrop} 
+              onDeleteHandler={deleteItem}
+            />
+        </main>
+      </DndProvider>
       {visible && 
       !currentIngredient.isIngredient && 
       modalOrder}

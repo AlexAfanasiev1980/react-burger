@@ -3,5 +3,7 @@ import { ingredientReducer } from './reducers';
 
 
 export const rootReducer = combineReducers({
-  ingredientReducer
+  ingredient: ingredientReducer, 
 });
+
+export type RootState = ReturnType<typeof rootReducer>

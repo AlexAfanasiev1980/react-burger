@@ -21,6 +21,7 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 const store = createStore(rootReducer, enhancer);
 
+// console.log(store.getState());
 
 ReactDOM.render(
   <React.StrictMode>
