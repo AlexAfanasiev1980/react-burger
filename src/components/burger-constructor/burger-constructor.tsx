@@ -96,8 +96,7 @@ const IngredientCard = (props:any) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-      const clientOffset = monitor.getClientOffset()
-      // console.log(clientOffset);
+      const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
@@ -180,7 +179,9 @@ function BurgerConstructor(props:BurgerConstructorProps) {
           <ul className={`${orderStyles.list_locked} pl-4`}>
          { bun &&
             <li className={orderStyles.list_item} key={bun._id}>
-              <BurgerItem dataCard={{...bun, name: `${bun.name} (верх)`}} typeMean='top' isLocked={true}/>
+              <BurgerItem 
+                dataCard={{...bun, name: `${bun.name} (верх)`}} 
+                typeMean='top' isLocked={true}/>
             </li>      
          }  
           </ul>
@@ -202,7 +203,9 @@ function BurgerConstructor(props:BurgerConstructorProps) {
           <ul className={`${orderStyles.list_locked} pl-4`}>
           {bun &&
             <li className={orderStyles.list_item} key={bun._id}>
-              <BurgerItem dataCard={{...bun, name: `${bun.name} (низ)`}} typeMean='bottom' isLocked={true} />
+              <BurgerItem 
+                dataCard={{...bun, name: `${bun.name} (низ)`}} 
+                typeMean='bottom' isLocked={true} />
             </li>   
           }
           </ul>

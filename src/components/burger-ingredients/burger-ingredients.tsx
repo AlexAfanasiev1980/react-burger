@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,8 +31,9 @@ interface BurgerProps {
   onClick: (card:Ingredient) => void
 }
 
-function Tabs() {
-  const [current, setCurrent] = useState('one')
+function Tabs(props:any) {
+  // const [current, setCurrent] = useState('one')
+  const {current, setCurrent} = props;
   return (
     <div className={ingredientsStyles.tab}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -79,6 +80,10 @@ function IngredientItem(props:IngredientProps) {
 }
 
 function BurgerIngredients(props:BurgerProps) {
+    const [current, setCurrent] = useState('one');
+    const refScroll:any = useRef();
+    const sauceRef:any = useRef();
+    const mainRef:any = useRef();
     const dispatch = useDispatch();
     const dataCards = useSelector((store:RootState) => {
       return store.ingredient.baseIngredients
@@ -95,14 +100,28 @@ function BurgerIngredients(props:BurgerProps) {
       dispatch(getItems());
     }, [dispatch]);
 
+    const handleScroll = () => {
+      let scrollDistance = refScroll.current.scrollTop;
+      let sauceTop = sauceRef.current.offsetTop;
+      let mainTop = mainRef.current.offsetTop;
+      if (scrollDistance < sauceTop) {
+        setCurrent('one')
+      } else if (scrollDistance > sauceTop && scrollDistance < mainTop) {
+        setCurrent('two')
+      } else if (scrollDistance > mainTop) {
+        setCurrent('three')
+      }
+      
+    }
+
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
         <h1 className={`mt-10 mb-5 text_type_main-large`}>Соберите бургер</h1>
-        <Tabs />
+        <Tabs current={current} setCurrent={setCurrent}/>
         {isLoading &&
         <h3>Загрузка...</h3>}
         {!isLoading &&
-        <div className={`mt-10 ${ingredientsStyles.menu}`}>
+        <div className={`mt-10 ${ingredientsStyles.menu}`} ref={refScroll} onScroll={() => handleScroll()}>
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
@@ -113,7 +132,7 @@ function BurgerIngredients(props:BurgerProps) {
                 })}
               </ul>
           </div>
-          <div>
+          <div ref={sauceRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
                 {sauce.map((card:Ingredient, index:number) => {
@@ -123,7 +142,7 @@ function BurgerIngredients(props:BurgerProps) {
                 })}
               </ul>
           </div>
-          <div>
+          <div ref={mainRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
                 {main.map((card:Ingredient, index:number) => {
