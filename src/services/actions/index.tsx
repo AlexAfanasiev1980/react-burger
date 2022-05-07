@@ -17,7 +17,6 @@ export function checkResponse(res:any) {
   return Promise.reject(`Ошибка ${res.status}`);
 }
 
-
 export function getItems() {
   return function(dispatch: any) {
     dispatch({

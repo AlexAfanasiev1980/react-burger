@@ -1,6 +1,15 @@
 import { SELECTED_INGREDIENTS, PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
   GET_ITEMS_REQUEST, GET_ITEMS_FAILED } from '../actions/index';
-  import { ADD_ITEM, DELETE_ITEM, REPLACE_ITEM, MOVE_CARD, CLEAR_INGREDIENTS } from '../actions/actions';
+  import { 
+    ADD_ITEM, 
+    DELETE_ITEM, 
+    REPLACE_ITEM, 
+    MOVE_CARD, 
+    CLEAR_INGREDIENTS, 
+    MODAL_VISIBLE, 
+    SET_ORDER,
+    CLOSE_MODAL 
+  } from '../actions/actions';
 
 const initialState = {
   baseIngredients: [],
@@ -9,7 +18,9 @@ const initialState = {
   isLoading: false,
   isError: '',
   order: {},
-  price: 0
+  price: 0,
+  numOrder: 0,
+  modalVisible: false
 };
 
 export const ingredientReducer = (state = initialState, action:any) => { 
@@ -82,6 +93,24 @@ export const ingredientReducer = (state = initialState, action:any) => {
       return {
         ...state,
         selectedIngredients: []
+      };
+    }
+    case MODAL_VISIBLE: {
+      return {
+        ...state,
+        modalVisible: !state.modalVisible
+      };
+    }
+    case SET_ORDER: {
+      return {
+        ...state,
+        numOrder: action.payload
+      };
+    }
+    case CLOSE_MODAL: {
+      return {
+        ...state,
+        modalVisible: !state.modalVisible
       };
     }
     default: {

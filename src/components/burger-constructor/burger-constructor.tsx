@@ -7,7 +7,7 @@ import { RootState } from '../../services/reducers';
 import { PRICE } from '../../services/actions/index';
 import { MOVE_CARD, ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
 import { useDrop, useDrag } from "react-dnd";
-import { Ingredient, IngredientConstructor, Card } from '../../utils/types';
+import { Ingredient } from '../../utils/types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface BurgerConstructorProps {
@@ -130,15 +130,15 @@ function BurgerConstructor(props:BurgerConstructorProps) {
   const dispatch = useDispatch();
 
 const handleDrop = (item:any) => {
-  const element = selectCards.filter((element:Card) => element.type === 'bun');
-  const typeItem = cards.filter((element:Card) => element._id === item.id)[0].type;
+  const element = selectCards.filter((element:Ingredient) => element.type === 'bun');
+  const typeItem = cards.filter((element:Ingredient) => element._id === item.id)[0].type;
   if (element.length !== 0 &&  typeItem === 'bun') {
     dispatch({
       type: REPLACE_ITEM,
-      payload: cards.filter((element:Card) => element._id === item.id)
+      payload: cards.filter((element:Ingredient) => element._id === item.id)
     });
   } else {
-    const elementItem = cards.filter((element:Card) => element._id === item.id)[0];
+    const elementItem = cards.filter((element:Ingredient) => element._id === item.id)[0];
     dispatch({
       type: ADD_ITEM,
       payload: {
@@ -152,7 +152,7 @@ const handleDrop = (item:any) => {
 const deleteItem = (index:any) => {
   dispatch({
     type: DELETE_ITEM,
-    payload: selectCards.filter((element:Card, indexElement:number) => indexElement !== index)
+    payload: selectCards.filter((element:Ingredient, indexElement:number) => indexElement !== index)
   });
 }
 
@@ -166,7 +166,7 @@ const [, dropTarget] = useDrop({
 
   useEffect (() => {
     const setState = () => {
-        selectedIngredients.forEach((card:IngredientConstructor) => { 
+        selectedIngredients.forEach((card:Ingredient) => { 
       if (card.type === 'bun') {
          cardData = [...cardData, card, card];
          sum += card.price*2;
@@ -206,7 +206,7 @@ const [, dropTarget] = useDrop({
          }  
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {selectedIngredients.map((card: IngredientConstructor, index:number, arr:Ingredient[]) => {
+            {selectedIngredients.map((card: Ingredient, index:number, arr:Ingredient[]) => {
               if (card.type !== 'bun') {
                 return (
                 <IngredientCard 
