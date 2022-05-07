@@ -7,7 +7,16 @@ export const VIEW_INGREDIENTS = 'VIEW_INGREDIENT';
 export const PRICE = 'PRICE';
 export const VIEWED_INGREDIENT = 'VIEWED_INGREDIENT';
 
+
 export const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
+
+export function checkResponse(res:any) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка ${res.status}`);
+}
+
 
 export function getItems() {
   return function(dispatch: any) {
@@ -15,19 +24,13 @@ export function getItems() {
       type: GET_ITEMS_REQUEST
     });
     fetch(`${ingredientsUrl}ingredients`)
-    .then(res => {
-      return res.json()
-    })
+    .then(checkResponse)
     .then(data => {
       const dataCards = data;
       dispatch({
         type: GET_ITEMS_SUCCESS,
         data: dataCards.data
       });
-      // dispatch({
-      //   type: SELECTED_INGREDIENTS, 
-      //   data: dataCards.data
-      // });
      })
     .catch(e => {
       console.log(e.type);

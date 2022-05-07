@@ -13,7 +13,8 @@ interface ModalProps {
 
 export default function Modal(props:ModalProps) {
 
-    const modalRoot = document.getElementById('root')!;
+    // const modalRoot = document.getElementById('root')!;
+    const modalRoot = document.getElementById('modals')!;
     const { onClose, title } = props;
     useEffect(() => {
       

@@ -5,28 +5,13 @@ import Subtract from '../../images/Subtract.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../services/reducers';
 import { PRICE } from '../../services/actions/index';
-import { MOVE_CARD } from '../../services/actions/actions';
+import { MOVE_CARD, ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
 import { useDrop, useDrag } from "react-dnd";
-
-interface Ingredient {
-  calories?: number
-  carbohydrates?: number
-  fat?: number
-  image?: string
-  image_large: string
-  image_mobile?: string
-  name: string
-  price: number
-  proteins?: number
-  type?: string
-  __v?: number
-  _id?: string
-}
+import { Ingredient, IngredientConstructor, Card } from '../../utils/types';
+import { v4 as uuidv4 } from 'uuid';
 
 interface BurgerConstructorProps {
-  onClick: () => void,
-  onDropHandler: (itemId:string) => void
-  onDeleteHandler: (index:number) => void
+  onClick: (selectedIngredients:any) => void
 }
 
 interface BurgerItemProps {
@@ -130,23 +115,58 @@ const IngredientCard = (props:any) => {
 
 function BurgerConstructor(props:BurgerConstructorProps) {
   
-  const { onClick, onDropHandler, onDeleteHandler } = props;
+  const { onClick } = props;
+  const cards = useSelector((store:RootState) => {
+    return store.ingredient.baseIngredients
+  });
+    const selectCards = useSelector((store:RootState) => {
+    return store.ingredient.selectedIngredients
+  });
   let sum=0;
   let cardData:Ingredient[] = [];
   const { selectedIngredients, price } = useSelector((store:RootState) => {
     return {...store.ingredient}
   });
   const dispatch = useDispatch();
-  const [, dropTarget] = useDrop({
-    accept: "ingredient",
-    drop(item:any) {
-      onDropHandler(item);
-    },
+
+const handleDrop = (item:any) => {
+  const element = selectCards.filter((element:Card) => element.type === 'bun');
+  const typeItem = cards.filter((element:Card) => element._id === item.id)[0].type;
+  if (element.length !== 0 &&  typeItem === 'bun') {
+    dispatch({
+      type: REPLACE_ITEM,
+      payload: cards.filter((element:Card) => element._id === item.id)
+    });
+  } else {
+    const elementItem = cards.filter((element:Card) => element._id === item.id)[0];
+    dispatch({
+      type: ADD_ITEM,
+      payload: {
+        card: elementItem,
+        uuid: uuidv4()
+      }
+    });
+  }
+};
+
+const deleteItem = (index:any) => {
+  dispatch({
+    type: DELETE_ITEM,
+    payload: selectCards.filter((element:Card, indexElement:number) => indexElement !== index)
   });
+}
+
+const [, dropTarget] = useDrop({
+  accept: "ingredient",
+  drop(item:any) {
+    handleDrop(item);
+  },
+});
+
 
   useEffect (() => {
     const setState = () => {
-      selectedIngredients.forEach((card:Ingredient) => {
+        selectedIngredients.forEach((card:IngredientConstructor) => { 
       if (card.type === 'bun') {
          cardData = [...cardData, card, card];
          sum += card.price*2;
@@ -186,14 +206,14 @@ function BurgerConstructor(props:BurgerConstructorProps) {
          }  
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {selectedIngredients.map((card: Ingredient, index:number, arr:Ingredient[]) => {
+            {selectedIngredients.map((card: IngredientConstructor, index:number, arr:Ingredient[]) => {
               if (card.type !== 'bun') {
                 return (
                 <IngredientCard 
                   card={card} 
                   index={index} 
-                  key={`${card._id}${index}`} 
-                  onDeleteHandler={onDeleteHandler}
+                  key={card.uuid}
+                  onDeleteHandler={deleteItem}
                   moveCard={moveCard}
                 />
                 )
@@ -214,16 +234,14 @@ function BurgerConstructor(props:BurgerConstructorProps) {
               <p className={`mr-2 text text_type_digits-medium`}>{price}</p>
               <img src={Subtract} alt="icon" className={orderStyles.icon} />
             </div>
-            <Button type="primary" size="medium" onClick={()=>onClick()}>
+            <Button type="primary" size="medium" onClick={()=>onClick(selectCards)}>
               Оформить заказ
             </Button>
           </div>
         </div>
         
       </section>
-      
     );
-    
   }
 
 export default BurgerConstructor;

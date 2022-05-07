@@ -5,21 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../services/reducers';
 import { getItems } from '../../services/actions/index';
 import { useDrag } from "react-dnd";
-
-interface Ingredient {
-  calories?: number
-    carbohydrates?: number
-    fat?: number
-    image?: string
-    image_large?: string
-    image_mobile?: string
-    name?: string
-    price?: number
-    proteins?: number
-    type?: string
-    __v?: number
-    _id?: string
-}
+import { Ingredient } from '../../utils/types';
 
 interface IngredientProps {
   onClick: (card:Ingredient) => void
@@ -32,7 +18,6 @@ interface BurgerProps {
 }
 
 function Tabs(props:any) {
-  // const [current, setCurrent] = useState('one')
   const {current, setCurrent} = props;
   return (
     <div className={ingredientsStyles.tab}>
@@ -66,7 +51,11 @@ function IngredientItem(props:IngredientProps) {
   }
 
   return (
-    <li className={ingredientsStyles.list_item} onClick={() => onClick(card)}  ref={dragRef}>
+    <li 
+      className={ingredientsStyles.list_item} 
+      onClick={() => onClick(card)}  
+      ref={dragRef}
+    >
       <img src={card.image} alt="icon" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
       <p className={`${ingredientsStyles.price_item}`}> 
       <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 

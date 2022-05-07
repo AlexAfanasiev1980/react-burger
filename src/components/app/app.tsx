@@ -8,26 +8,13 @@ import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { VIEWED_INGREDIENT } from '../../services/actions/index';
-import { ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
+import { CLEAR_INGREDIENTS } from '../../services/actions/actions';
 import { ingredientsUrl } from '../../services/actions/index';
 import { RootState } from '../../services/reducers';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
-interface Card {
-    calories?: number
-    carbohydrates?: number
-    fat?: number
-    image?: string
-    image_large?: string
-    image_mobile?: string
-    name?: string
-    price?: number
-    proteins?: number
-    type?: string
-    __v?: number
-    _id?: string
-}
+import { checkResponse } from '../../services/actions/index';
+import { Card } from '../../utils/types';
 
 function App() {
 
@@ -40,9 +27,7 @@ function App() {
   const cards = useSelector((store:RootState) => {
     return store.ingredient.baseIngredients
   });
-  const selectCards = useSelector((store:RootState) => {
-    return store.ingredient.selectedIngredients
-  });
+
   const viewIngredient = useSelector((store:RootState) => {
     return store.ingredient.viewIngredient
   });
@@ -56,40 +41,56 @@ function App() {
     handleOpenModal();
   }
 
-  const openModalOrder = () => {
-    const cardsId = cards.map((card:Card) => card._id);
-    const params = {
-      method: 'POST',
-      headers: {
-    'Content-Type': 'application/json'
-  },
-      body: JSON.stringify({
+    function openModalOrder(selectCards:any) {
+      return function(dispatch:any) {
+      const cardsId = selectCards.map((card:Card) => card._id);
+      const cardsBun = selectCards.filter((card:Card) => card.type === 'bun');
+      if (cardsId.length !==0 && cardsBun.length !== 0) {
+      const params = {
+        method: 'POST',
+        headers: {
+         'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
         "ingredients": cardsId
+        })
+      }
+      fetch(`${ingredientsUrl}orders`, params)
+      .then(checkResponse)
+      .then(data => {
+        const orderObject = data;
+        setNumOrder(orderObject.order.number);
+        handleOpenModal();
+        clearIngredients();
       })
-    }
-    const getNumberOrder = async() => {
-      try {
-      const res = await fetch(`${ingredientsUrl}orders`, params);
-      if(!res.ok) {
-        throw new Error(`Fetching ${ingredientsUrl}orders failed.`);
-      };
-      const orderObject = await res.json();
-      setNumOrder(orderObject.order.number);
-      } catch(e) {
-        console.log(e);
+      .catch(err => {
+        console.log(err);
+      })
+      } else if (cardsId.length === 0) {
+        alert('Для отправки заказа выберите ингридиенты')
+      } else if (cardsBun.length === 0) {
+        alert('Для отправки заказа необходимо выбрать булку')
       }
     }
-    getNumberOrder();
-    handleOpenModal();
   }
+
+  const openModal = (selectCards:any) =>
+  {
+    return dispatch(openModalOrder(selectCards))
+  };
 
   const handleOpenModal = () => {
     setVisible(true);
   }
 
+  const clearIngredients = () => {
+    dispatch({
+      type: CLEAR_INGREDIENTS
+    });
+  }
+
   const handleCloseModal = () => {
     setVisible(false);
-    // setCurrentIngredient({...currentIngredient, isIngredient: false, dataCard: {}});
     setCurrentIngredient({...currentIngredient, isIngredient: false});
     dispatch({
       type: VIEWED_INGREDIENT,
@@ -109,29 +110,6 @@ const modalIngredient = (
   </Modal>
 );
 
-const handleDrop = (item:any) => {
-  const element = selectCards.filter((element:Card) => element.type === 'bun');
-  const typeItem = cards.filter((element:Card) => element._id === item.id)[0].type;
-  if (element.length !== 0 &&  typeItem === 'bun') {
-    dispatch({
-      type: REPLACE_ITEM,
-      payload: cards.filter((element:Card) => element._id === item.id)
-    });
-  } else {
-    dispatch({
-      type: ADD_ITEM,
-      payload: cards.filter((element:Card) => element._id === item.id)
-    });
-  }
-};
-
-const deleteItem = (index:any) => {
-  dispatch({
-    type: DELETE_ITEM,
-    payload: selectCards.filter((element:Card, indexElement:number) => indexElement !== index)
-  });
-}
-
   return (
     <>
       <AppHeader />
@@ -139,9 +117,7 @@ const deleteItem = (index:any) => {
         <main className={styleMain.main}>
             <BurgerIngredients onClick={openModalIngredients}/>
             <BurgerConstructor 
-              onClick={openModalOrder} 
-              onDropHandler={handleDrop} 
-              onDeleteHandler={deleteItem}
+              onClick={openModal} 
             />
         </main>
       </DndProvider>

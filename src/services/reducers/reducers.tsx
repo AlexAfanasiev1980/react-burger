@@ -1,13 +1,12 @@
 import { SELECTED_INGREDIENTS, PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
   GET_ITEMS_REQUEST, GET_ITEMS_FAILED } from '../actions/index';
-  import { ADD_ITEM, DELETE_ITEM, REPLACE_ITEM, MOVE_CARD } from '../actions/actions';
+  import { ADD_ITEM, DELETE_ITEM, REPLACE_ITEM, MOVE_CARD, CLEAR_INGREDIENTS } from '../actions/actions';
 
 const initialState = {
   baseIngredients: [],
   selectedIngredients: [],
   viewIngredient: {},
   isLoading: false,
-
   isError: '',
   order: {},
   price: 0
@@ -55,9 +54,10 @@ export const ingredientReducer = (state = initialState, action:any) => {
       };
     }
     case ADD_ITEM: {
+      const item = {...action.payload.card, uuid: action.payload.uuid};
       return {
         ...state,
-        selectedIngredients: [...state.selectedIngredients, ...action.payload]
+        selectedIngredients: [...state.selectedIngredients, item]
       };
     }
     case REPLACE_ITEM: {
@@ -76,6 +76,12 @@ export const ingredientReducer = (state = initialState, action:any) => {
       return {
         ...state,
         selectedIngredients: action.payload
+      };
+    }
+    case CLEAR_INGREDIENTS: {
+      return {
+        ...state,
+        selectedIngredients: []
       };
     }
     default: {
