@@ -16,7 +16,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Ingredient } from '../../utils/types';
 
 function App() {
-
   const dispatch = useDispatch();
   const [currentIngredient, setCurrentIngredient] = useState({
     isIngredient: false,
