@@ -10,6 +10,7 @@ import { useDrop, useDrag } from "react-dnd";
 import { Ingredient } from '../../utils/types';
 import { v4 as uuidv4 } from 'uuid';
 
+
 interface BurgerConstructorProps {
   onClick: (selectedIngredients:any) => void
 }

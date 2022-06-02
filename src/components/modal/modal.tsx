@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as React from 'react'
 import styleModal from './modal.module.css';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+// import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 interface ModalProps {
@@ -12,8 +12,6 @@ interface ModalProps {
 }
 
 export default function Modal(props:ModalProps) {
-
-    // const modalRoot = document.getElementById('root')!;
     const modalRoot = document.getElementById('modals')!;
     const { onClose, title } = props;
     useEffect(() => {
@@ -37,21 +35,10 @@ export default function Modal(props:ModalProps) {
       ( 
         <>
           <div className={styleModal.modal_container}>
-          <div className={styleModal.modal}>
-            <div className={styleModal.header}>
-              <p className='text text_type_main-large'>
-                {title}
-              </p>
-              <button className={`${styleModal.buttonClose}`} onClick={onClose}>
-                <CloseIcon type="primary" />
-              </button>
+            <div className={styleModal.modal}>
+                {props.children}
             </div>
-            <div className={styleModal.contentContainer}>
-              {props.children}
-            </div>
-            
-          </div>
-          <ModalOverlay onClick={onClose}/>
+            <ModalOverlay onClick={onClose}/>
           </div>
         </>
       ), 

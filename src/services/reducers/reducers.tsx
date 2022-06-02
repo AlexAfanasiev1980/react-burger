@@ -110,7 +110,7 @@ export const ingredientReducer = (state = initialState, action:any) => {
     case CLOSE_MODAL: {
       return {
         ...state,
-        modalVisible: !state.modalVisible
+        modalVisible: false
       };
     }
     default: {

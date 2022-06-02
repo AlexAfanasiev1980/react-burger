@@ -14,8 +14,13 @@ import { RootState } from '../../services/reducers';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Ingredient } from '../../utils/types';
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { ProtectedRoute } from '../protected-routh';
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../pages';
 
 function App() {
+  
   const dispatch = useDispatch();
   const [currentIngredient, setCurrentIngredient] = useState({
     isIngredient: false,
@@ -24,6 +29,11 @@ function App() {
   const { viewIngredient, modalVisible, numOrder } = useSelector((store:RootState) => {
     return store.ingredient
   });
+  const location:any = useLocation();
+  const background:any = location.state?.background;
+  console.log(location);
+  console.log(background);
+  let history:any = useHistory();
 
   const openModalIngredients = (card: Ingredient) => {
     dispatch({
@@ -34,6 +44,7 @@ function App() {
     dispatch({
       type: MODAL_VISIBLE
     });
+   
   }
 
   const openModal = (selectCards:any) =>
@@ -50,6 +61,7 @@ function App() {
       type: VIEWED_INGREDIENT,
       payload: {}
     });
+    history.push("/");
   }
   
   const modalOrder = (
@@ -58,29 +70,59 @@ function App() {
     </Modal>
 );
 
-const modalIngredient = (
-  <Modal onClose={handleCloseModal} title={'Детали ингредиента'}> 
-    <IngredientDetails data={viewIngredient}/>
-  </Modal>
-);
-
   return (
     <>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styleMain.main}>
-            <BurgerIngredients onClick={openModalIngredients}/>
-            <BurgerConstructor 
-              onClick={openModal} 
-            />
-        </main>
-      </DndProvider>
+        <AppHeader />
+        <Switch >
+        {/* location={background || location} */}
+          <ProtectedRoute path="/" exact={true}>
+            <DndProvider backend={HTML5Backend}>
+              <main className={styleMain.main}>
+                <BurgerIngredients onClick={openModalIngredients}/>
+                <BurgerConstructor 
+                onClick={openModal} 
+                />
+              </main>
+            </DndProvider>
+          </ProtectedRoute>
+          <Route path="/login" exact={true}>
+            <LoginPage />
+          </Route>
+          <Route path="/register" exact={true}>
+            <RegisterPage />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPasswordPage />
+          </Route>
+          <Route path="/reset-password" exact={true}>
+            <ResetPasswordPage />
+          </Route>
+          <ProtectedRoute path="/profile" exact={true}>
+            <ProfilePage />
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders" exact={true}>
+            <ProfilePage />
+          </ProtectedRoute>
+          <Route path={`/ingredients/:id`} exact={true} location={background || location}>
+                <IngredientDetails data={viewIngredient} title={'Детали ингредиента'} onClose={handleCloseModal}/>
+          </Route>
+          <Route>
+            <NotFound404 />
+          </Route>
+        </Switch>
+      {background && (
+        <Switch>
+          <Route
+            path="/ingredients/:id">
+              <Modal onClose={handleCloseModal}> 
+                <IngredientDetails data={viewIngredient} title={'Детали ингредиента'} onClose={handleCloseModal}/>
+              </Modal>
+          </Route>
+        </Switch>
+      )}
       {modalVisible && 
       !currentIngredient.isIngredient && 
       modalOrder}
-      {modalVisible && 
-      currentIngredient.isIngredient && 
-      modalIngredient}
     </>
   );
 }
