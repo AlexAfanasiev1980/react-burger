@@ -47,3 +47,27 @@
 .image {
   text-align: center;
 }
+
+.pageContainer {
+  margin: 120px 0 0 0;
+  height: 100vh;
+}
+
+.headerPage {
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.imagePageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.imagePage {
+  margin: 0;
+}

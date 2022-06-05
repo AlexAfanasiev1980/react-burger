@@ -5,18 +5,18 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './services/store';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ProvideAuth } from './services/auth';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ProvideAuth>
-        <Router>
-          <App />
-        </Router>
-      </ProvideAuth>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <ProvideAuth>
+            <App />
+        </ProvideAuth>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

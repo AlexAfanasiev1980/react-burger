@@ -26,7 +26,7 @@ export function ForgotPasswordPage() {
   }
   const inputRefMail = useRef<HTMLInputElement>(null);
 
-  if (auth.user) {
+  if (auth.user.name) {
     return (
       <Redirect
         to={{

@@ -79,7 +79,7 @@ const IngredientCard = (props:any) => {
       if (dragIndex === hoverIndex) {
         return
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref && ref.current.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset();

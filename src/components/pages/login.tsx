@@ -3,13 +3,13 @@ import { Redirect, Link, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
 import { useAuth } from '../../services/auth';
-// import { getCookie } from '../../services/utils';
 
 export function LoginPage() {
   let location = useLocation();
   const state:any = location.state;
   const inputRefMail = useRef<HTMLInputElement>(null);
   let auth:any = useAuth();
+  console.log(auth.user.name);
   const [form, setValue] = useState({ email: '', password: '' });
 
   const onChange = (e:any) => {
@@ -25,10 +25,10 @@ export function LoginPage() {
     [auth, form]
   );
 
-  if (auth.user) {
+  if (auth.user.name) {
     return (
       <Redirect
-        to={ state?.from || '/' }
+        to={ state && state.from || '/' }
       />
     );
   }

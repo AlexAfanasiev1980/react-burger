@@ -1,7 +1,4 @@
 import { getCookie } from './utils';
-// import { checkResponse } from './actions/index';
-// import { textChangeRangeIsUnchanged } from 'typescript';
-
 
 const baseUrl = 'https://norma.nomoreparties.space/api/';
 
@@ -19,38 +16,6 @@ export const serializeQuery = (queryParams:any) =>
     const postfix = index === array.length - 1 ? '' : '&';
     return `${acc}${encodeURIComponent(key)}=${encodeURIComponent(value)}${postfix}`;
   }, '?');
-
-// export const getCountriesRequest = async () =>
-//   await fetch('https://cosmic.nomoreparties.space/api/countries', {
-//     method: 'GET',
-//     mode: 'cors',
-//     cache: 'no-cache',
-//     credentials: 'same-origin',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: 'Bearer ' + getCookie('token')
-//     },
-//     redirect: 'follow',
-//     referrerPolicy: 'no-referrer'
-//   })
-//     .then(res => res.json())
-//     .then(({ countries }) => countries);
-
-// export const getLaureatesRequest = async () =>
-//   await fetch('https://cosmic.nomoreparties.space/api/laureates', {
-//     method: 'GET',
-//     mode: 'cors',
-//     cache: 'no-cache',
-//     credentials: 'same-origin',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: 'Bearer ' + getCookie('token')
-//     },
-//     redirect: 'follow',
-//     referrerPolicy: 'no-referrer'
-//   })
-//     .then(res => res.json())
-//     .then(({ laureates }) => laureates);
 
 export const getPasswordRequest = async (email:any) => {
   return await fetch(`${baseUrl}password-reset`, {
@@ -124,6 +89,20 @@ export const getUserRequest = async () =>
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(form)
+  });
+
+  export const apdateTokenRequest = async () =>
+  await fetch(`${baseUrl}auth/token`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: localStorage.getItem('refreshToken')
   });
 
 export const logoutRequest = async (token:string) => {

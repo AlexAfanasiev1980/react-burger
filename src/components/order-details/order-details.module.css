@@ -1,12 +1,20 @@
 .numberOrder {
   margin-left: auto;
   margin-right: auto; 
+  text-align: center;
 }
 
 .icon {
   border: none;
+  display: flex;
+  justify-content: center;
 }
 
 .bottomText {
   color: rgb(133, 133, 173);
+  text-align: center;
+}
+
+.text {
+  text-align: center;
 }

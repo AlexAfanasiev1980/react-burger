@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './login.module.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { ProfileDataPage, OrdersPage, NotFound404 } from '../pages';
 import { useAuth } from '../../services/auth';
 import { ProtectedRoute } from '../protected-routh';
@@ -19,7 +19,7 @@ export function ProfilePage() {
   );
 
   return (
-    <Router>
+    <>
     <div className={styles.wrapperProfile}>
       <div className={`${styles.container} ${styles.containerItems}`}>
         <nav>
@@ -69,13 +69,13 @@ export function ProfilePage() {
             <ProtectedRoute path="/profile/orders/:id" exact={true}>
                 {/* <ProfileDataPage /> */}
             </ProtectedRoute>
-            <Route>
+            <Route path='*'>
                 <NotFound404 />
             </Route>
           </Switch>
         
       </div>
     </div>
-    </Router>
+    </>
   );
 }

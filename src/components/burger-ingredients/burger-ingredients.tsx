@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
-import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { RootState } from '../../services/reducers';
 import { getItems } from '../../services/actions/index';
 import { useDrag } from "react-dnd";
 import { Ingredient } from '../../utils/types';
-// import { useAuth } from '../../services/auth';
-// import { getCookie } from '../../services/utils';
 
 interface IngredientProps {
   onClick: (card:Ingredient) => void
@@ -63,7 +61,7 @@ function IngredientItem(props:IngredientProps) {
     >
       <Link to={{
           pathname: `/ingredients/${card._id}`,
-          state: {background: location.pathname}
+          state: {background: location}
       }}
       className={ingredientsStyles.link}>
         <img src={card.image} alt="icon" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
@@ -95,10 +93,6 @@ function BurgerIngredients(props:BurgerProps) {
     const bun = dataCards.filter((card:Ingredient) => card.type==='bun');
     const sauce = dataCards.filter((card:Ingredient) => card.type==='sauce');
     const main = dataCards.filter((card:Ingredient) => card.type==='main');
-    
-    useEffect(() => {
-      dispatch(getItems());
-    }, [dispatch]);
 
     const handleScroll = () => {
       let scrollDistance = refScroll.current.scrollTop;

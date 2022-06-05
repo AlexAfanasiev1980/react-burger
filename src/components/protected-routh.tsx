@@ -1,6 +1,6 @@
 import { useAuth } from '../services/auth';
 import { Redirect, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export function ProtectedRoute({ children, ...rest }:any) {
   let { getUser, ...auth }:any = useAuth();
@@ -22,7 +22,7 @@ export function ProtectedRoute({ children, ...rest }:any) {
     <Route
       {...rest}
       render={({ location }) =>
-        auth.user ? (
+          auth.user.name ? (
           children
         ) : (
           <Redirect

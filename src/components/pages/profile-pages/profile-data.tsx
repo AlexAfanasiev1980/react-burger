@@ -53,6 +53,7 @@ export function ProfileDataPage() {
           type: UPDATE_USER_SUCCESS,
           payload: {...res.user, password: valuePass}
         })
+        localStorage.setItem('password', valuePass)
       }
     })
     .catch(e => {
@@ -73,7 +74,7 @@ export function ProfileDataPage() {
   }
 
   const onIconClick = () => {
-    setTimeout(() => inputRef?.current?.focus(), 0);
+    setTimeout(() => inputRef.current && inputRef.current.focus(), 0);
     setDisabledName(false);
     window.addEventListener('click', onClickWindow);
   }

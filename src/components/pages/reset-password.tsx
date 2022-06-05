@@ -13,7 +13,6 @@ export function ResetPasswordPage() {
   const onChange = (e:any) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }
-  console.log(auth.user)
   const resetPassword = useCallback(
     e => {
       e.preventDefault();
@@ -33,7 +32,7 @@ export function ResetPasswordPage() {
 
   const inputRefMail = useRef<HTMLInputElement>(null);
 
-  if (auth.user) {
+  if (auth.user.name) {
     return (
       <Redirect
         to={{

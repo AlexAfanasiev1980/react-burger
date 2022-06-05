@@ -14,7 +14,7 @@ interface IdDate {
   id: string
 }
 
-export default function IngredientDetails(props:IngredientProps) {
+export default function IngredientDetailsPage(props:IngredientProps) {
 const id:IdDate = useParams();
 const dataCards = useSelector((store:RootState) => {
     return store.ingredient.baseIngredients
@@ -24,8 +24,15 @@ const dataCard = dataCards.filter((card:any) => card._id === id.id)[0];
 return (
     <>
     {dataCard && 
-      <div className={styleIngredient.modalContainer}>
-      <img src={dataCard.image_large} alt="icon" className={`ml-30 ${styleIngredient.image}`} />
+      <div className={styleIngredient.pageContainer}>
+      <div className={styleIngredient.headerPage}>
+        <p className='text text_type_main-large'>
+            {props.title}
+        </p>
+     </div>
+     <div className={`${styleIngredient.imagePageContainer}`}>
+        <img src={dataCard.image_large} alt="icon" className={`ml-30 ${styleIngredient.imagePage}`} />
+    </div>
       <h2 className={`${styleIngredient.title} text text_type_main-large`}>{dataCard.name}</h2>
       <ul className={`${styleIngredient.nutritional_value}`}>
         <li className={styleIngredient.list_item}>
