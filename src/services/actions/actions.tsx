@@ -1,6 +1,6 @@
 import { checkResponse } from './index';
 import { Ingredient } from '../../utils/types';
-import { ingredientsUrl } from './index';
+import { baseUrl } from '../api';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
@@ -25,7 +25,7 @@ export const sendOrder = (selectCards:any) => {
       "ingredients": cardsId
       })
     }
-    fetch(`${ingredientsUrl}orders`, params)
+    fetch(`${baseUrl}orders`, params)
     .then(checkResponse)
     .then(data => {
       const orderObject = data;

@@ -2,10 +2,10 @@ import React, { useState, useRef } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { setUserRequest } from '../../services/api';
-import { checkResponse } from '../../services/actions/index';
+import { setUserRequest } from '../services/api';
+import { checkResponse } from '../services/actions/index';
 import { useDispatch } from 'react-redux';
-import { GET_USER_SUCCESS } from '../../services/actions/user-actions';
+import { GET_USER_SUCCESS } from '../services/actions/user-actions';
 
 export function RegisterPage() {
   const [value, setValue] = useState('')

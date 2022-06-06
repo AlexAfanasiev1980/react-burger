@@ -19,7 +19,7 @@ import { Redirect, Switch, Route, Router } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-routh';
 import { getItems } from '../../services/actions/index';
-import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../pages';
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
 
 function App() {
 
@@ -36,7 +36,7 @@ function App() {
   });
   const location:any = useLocation();
   const background:any = location.state && location.state.background;
-  let history:any = useHistory();
+  const history:any = useHistory();
   const openModalIngredients = (card: Ingredient) => {
     dispatch({
       type: VIEWED_INGREDIENT,

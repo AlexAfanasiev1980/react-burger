@@ -2,9 +2,9 @@ import React, { useCallback, useState, useRef } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { setResetPasswordRequest } from '../../services/api';
-import { checkResponse } from '../../services/actions/index';
-import { useAuth } from '../../services/auth';
+import { setResetPasswordRequest } from '../services/api';
+import { checkResponse } from '../services/actions/index';
+import { useAuth } from '../services/auth';
 
 export function ResetPasswordPage() {
   const [form, setValue] = useState({ password: '', token: '' });
@@ -55,7 +55,7 @@ export function ResetPasswordPage() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={resetPassword}>
           <h1 className={`${styles.heading} text text_type_main-medium mb-6`}>Восстановление пароля</h1>
           <div className={`${styles.input} mb-6`}>
               <PasswordInput onChange={onChange} value={form.password} name={'password'} />
@@ -74,7 +74,7 @@ export function ResetPasswordPage() {
             />
           </div>
           <div className={`${styles.button} mb-20`}>
-            <Button type="primary" size="medium" onClick={resetPassword}>
+            <Button type="primary" size="medium">
               Сохранить
             </Button>
           </div>

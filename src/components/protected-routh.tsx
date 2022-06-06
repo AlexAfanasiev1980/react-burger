@@ -10,6 +10,8 @@ export function ProtectedRoute({ children, ...rest }:any) {
     setUserLoaded(true);
   };
 
+  
+
   useEffect(() => {
     init();
   }, []);

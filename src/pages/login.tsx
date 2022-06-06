@@ -2,14 +2,13 @@ import React, { useCallback, useState, useRef  } from 'react';
 import { Redirect, Link, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { useAuth } from '../../services/auth';
+import { useAuth } from '../services/auth';
 
 export function LoginPage() {
-  let location = useLocation();
+  const location = useLocation();
   const state:any = location.state;
   const inputRefMail = useRef<HTMLInputElement>(null);
-  let auth:any = useAuth();
-  console.log(auth.user.name);
+  const auth:any = useAuth();
   const [form, setValue] = useState({ email: '', password: '' });
 
   const onChange = (e:any) => {
@@ -17,7 +16,7 @@ export function LoginPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let login = useCallback(
+  const login = useCallback(
     e => {
       e.preventDefault();
       auth.signIn(form);
@@ -36,7 +35,7 @@ export function LoginPage() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={login}>
           <h1 className={`${styles.heading} text text_type_main-medium mb-6`}>Вход</h1>
           <div className={`${styles.input} mb-6`}>
             <Input
@@ -55,7 +54,7 @@ export function LoginPage() {
               <PasswordInput onChange={onChange} value={form.password} name={'password'} />
           </div>
           <div className={`${styles.button} mb-20`}>
-            <Button type="primary" size="medium" onClick={login}>
+            <Button type="primary" size="medium">
               Войти
             </Button>
           </div>

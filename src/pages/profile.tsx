@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './login.module.css';
 import { Router, Switch, Route } from 'react-router-dom';
-import { ProfileDataPage, OrdersPage, NotFound404 } from '../pages';
-import { useAuth } from '../../services/auth';
-import { ProtectedRoute } from '../protected-routh';
+import { ProfileDataPage, OrdersPage, NotFound404 } from '.';
+import { useAuth } from '../services/auth';
+import { ProtectedRoute } from '../components/protected-routh';
 const links = ["Профиль", "История заказов", "Выход"];
 
 
