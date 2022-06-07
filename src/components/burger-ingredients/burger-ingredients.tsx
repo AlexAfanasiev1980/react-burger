@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
-import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { RootState } from '../../services/reducers';
 import { getItems } from '../../services/actions/index';
 import { useDrag } from "react-dnd";
@@ -35,6 +36,7 @@ function Tabs(props:any) {
 }
 
 function IngredientItem(props:IngredientProps) {
+  const location:any = useLocation();
   const {onClick, card, ingredients} = props;
   const id = card._id;
   const [, dragRef] = useDrag({
@@ -44,6 +46,7 @@ function IngredientItem(props:IngredientProps) {
       isDrag: monitor.isDragging()
     })
   });
+  
   
   let counter = ingredients.filter((element:any) => element._id === id).length;
   if (counter !== 0 && card['type'] === 'bun') {
@@ -56,14 +59,20 @@ function IngredientItem(props:IngredientProps) {
       onClick={() => onClick(card)}  
       ref={dragRef}
     >
-      <img src={card.image} alt="icon" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
-      <p className={`${ingredientsStyles.price_item}`}> 
-      <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
-      <CurrencyIcon type="primary" /> </p>
-      <h3 className={`mt-1 text_type_main-small`}>{card.name}</h3>
-      {counter !== 0 && 
-        <Counter count={counter} size="default" />
-      }
+      <Link to={{
+          pathname: `/ingredients/${card._id}`,
+          state: {background: location}
+      }}
+      className={ingredientsStyles.link}>
+        <img src={card.image} alt="icon" className={`ml-4 mb-1 ${ingredientsStyles.image}`}/>
+        <p className={`${ingredientsStyles.price_item}`}> 
+        <span className={`mr-2 text_type_digits-default`}>{card.price}</span> 
+        <CurrencyIcon type="primary" /> </p>
+        <h3 className={`mt-1 text_type_main-small`}>{card.name}</h3>
+        {counter !== 0 && 
+          <Counter count={counter} size="default" />
+        }
+      </Link>
     </li>
   );
 }
@@ -84,10 +93,6 @@ function BurgerIngredients(props:BurgerProps) {
     const bun = dataCards.filter((card:Ingredient) => card.type==='bun');
     const sauce = dataCards.filter((card:Ingredient) => card.type==='sauce');
     const main = dataCards.filter((card:Ingredient) => card.type==='main');
-    
-    useEffect(() => {
-      dispatch(getItems());
-    }, [dispatch]);
 
     const handleScroll = () => {
       let scrollDistance = refScroll.current.scrollTop;
@@ -116,7 +121,7 @@ function BurgerIngredients(props:BurgerProps) {
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
                 {bun.map((card:Ingredient, index:number) => {
                   return (
-                    <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
+                      <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
                   )
                 })}
               </ul>
@@ -126,7 +131,9 @@ function BurgerIngredients(props:BurgerProps) {
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
                 {sauce.map((card:Ingredient, index:number) => {
                   return (
-                    <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
+                  
+                      <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
+                    
                   ) 
                 })}
               </ul>
@@ -136,7 +143,9 @@ function BurgerIngredients(props:BurgerProps) {
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
                 {main.map((card:Ingredient, index:number) => {
                   return (
-                    <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
+                   
+                      <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
+                   
                   )
                 })}
               </ul>

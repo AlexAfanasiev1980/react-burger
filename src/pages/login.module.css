@@ -1,0 +1,104 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.wrapperProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+}
+
+.wrapperButton {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  
+}
+
+.disabledButton {
+  display: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 480px;
+}
+
+.heading {
+  text-align: center;
+}
+
+.form {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.input, 
+.input div:not(input + div) {
+  width: 480px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+}
+
+.containerItems {
+  margin: 120px 0 0 0;
+  align-items: flex-start;
+}
+
+.containerProfile {
+  flex-direction: column;
+}
+
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+  cursor: pointer;
+  background-color: var(--background-alt);
+  border: none;
+}
+
+.items {
+  padding: 0;
+  margin: 0 60px 0 0;
+}
+
+.item {
+  list-style: none;
+  min-width: 320px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.linkProfile {
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.activeLink {
+  color: #F2F2F3;
+}
+
+.textProfile {
+  color: #8585AD;
+  opacity: 0.4;
+  width: 320px;
+}

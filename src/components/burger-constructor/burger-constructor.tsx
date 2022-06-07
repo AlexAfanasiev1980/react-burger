@@ -10,6 +10,7 @@ import { useDrop, useDrag } from "react-dnd";
 import { Ingredient } from '../../utils/types';
 import { v4 as uuidv4 } from 'uuid';
 
+
 interface BurgerConstructorProps {
   onClick: (selectedIngredients:any) => void
 }
@@ -78,7 +79,7 @@ const IngredientCard = (props:any) => {
       if (dragIndex === hoverIndex) {
         return
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref && ref.current.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset();

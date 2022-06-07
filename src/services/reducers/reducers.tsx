@@ -1,6 +1,6 @@
 import { SELECTED_INGREDIENTS, PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
   GET_ITEMS_REQUEST, GET_ITEMS_FAILED } from '../actions/index';
-  import { 
+import { 
     ADD_ITEM, 
     DELETE_ITEM, 
     REPLACE_ITEM, 
@@ -110,7 +110,7 @@ export const ingredientReducer = (state = initialState, action:any) => {
     case CLOSE_MODAL: {
       return {
         ...state,
-        modalVisible: !state.modalVisible
+        modalVisible: false
       };
     }
     default: {

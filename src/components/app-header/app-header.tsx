@@ -1,34 +1,76 @@
-import React from 'react';
+import React, { useState } from 'react';
 import headerStyles from './app-header.module.css';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
+import { NavLink } from 'react-router-dom';
+
 
 function AppHeader() {
+    const [isActive, setActive] = useState({
+      burger: true,
+      list: false,
+      profile: false
+    });
+
+    const onClickHendler = (e:any) => {
+      e.currentTarget.id === "profile" ? 
+      setActive({...isActive, burger: false, list: false, profile: true}) :
+      e.currentTarget.id === "list" ? 
+      setActive({...isActive, burger: false, list: true, profile: false}) :
+      setActive({...isActive, burger: true, list: false, profile: false})
+    }
+
     return (
       <header className={headerStyles.header}>
         <nav className={headerStyles.nav}>
           <ul className={headerStyles.list}>
             <li className={headerStyles.list_item}>
-            <a href='#' className={`pt-4 pr-5 pb-4 pl-5 ${headerStyles.link}`}>
-                <BurgerIcon type="primary" />
-                <p className={`ml-2 ${headerStyles.text} ${headerStyles.text_active} text_type_main-default`}>Конструктор</p>
-              </a>
+            <NavLink 
+                id="burger" 
+                className={`pt-4 pr-5 pb-4 pl-5 ${headerStyles.link}`} 
+                activeClassName={headerStyles.activeLink} 
+                onClick={onClickHendler} 
+                to='/'
+                exact
+              >
+                <BurgerIcon type={isActive.burger ? "primary" : "secondary"} />
+                <p className={`ml-2 text_type_main-default`}>
+                  Конструктор
+                </p>
+              </NavLink>
             </li>
             <li className={headerStyles.list_item}>
-              <a href='#' className={`pt-4 pr-5 pb-4 pl-5 ${headerStyles.link}`}>
-                <ListIcon type="secondary" />
-                <p className={`ml-2 ${headerStyles.text} text_type_main-default`}>Лента заказов</p>
-              </a>
+              <NavLink 
+                id="list" 
+                className={`pt-4 pr-5 pb-4 pl-5 ${headerStyles.link}`} 
+                activeClassName={headerStyles.activeLink} 
+                onClick={onClickHendler} 
+                to='/order'
+                exact
+              >
+                  <ListIcon type={isActive.list ? "primary" : "secondary"} />
+                  <p className={`ml-2 ${headerStyles.text} text_type_main-default`}>
+                    Лента заказов
+                  </p>
+              </NavLink>
             </li>
-          </ul>
+          </ul>   
         </nav>
         <img src={logo} alt="logo" className={headerStyles.logo}/>
-        <a href='#' className={`${headerStyles.link} ${headerStyles.link_personal_area}`}>
-          <ProfileIcon type="secondary" />
-          <p className={`ml-2 ${headerStyles.text} text_type_main-default`}>Личный кабинет</p>
-        </a>
+        <NavLink 
+          id="profile" 
+          className={`${headerStyles.link}`} 
+          activeClassName={headerStyles.activeLink} 
+          onClick={onClickHendler} 
+          to='/profile'
+        >
+          <ProfileIcon type={isActive.profile ? "primary" : "secondary"}/>
+          <p className={`ml-2 ${headerStyles.text} text_type_main-default`}>
+            Личный кабинет
+          </p>
+        </NavLink>
       </header>
     );
   };

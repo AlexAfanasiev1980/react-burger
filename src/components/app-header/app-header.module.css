@@ -15,7 +15,7 @@
 
 .link {
   text-decoration: none;
-  color: inherit;
+  color: #8585AD;
   display: flex;
   align-items: center;
 }
@@ -25,13 +25,17 @@
   padding: 0;
 }
 
-.text {
+/* .text {
   color: #8585AD;
-}
+} */
 
-.text_active {
+.activeLink {
   color: #F2F2F3;
 }
+
+/* .text_active {
+  color: #F2F2F3;
+} */
 
 .logo {
   margin: 0 289px 0 112px;

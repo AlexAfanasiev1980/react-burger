@@ -6,9 +6,7 @@ export const SELECTED_INGREDIENTS = 'SELECTED_INGREDIENTS';
 export const VIEW_INGREDIENTS = 'VIEW_INGREDIENT';
 export const PRICE = 'PRICE';
 export const VIEWED_INGREDIENT = 'VIEWED_INGREDIENT';
-
-
-export const ingredientsUrl = 'https://norma.nomoreparties.space/api/';
+import { baseUrl } from '../api';
 
 export function checkResponse(res:any) {
   if (res.ok) {
@@ -22,7 +20,7 @@ export function getItems() {
     dispatch({
       type: GET_ITEMS_REQUEST
     });
-    fetch(`${ingredientsUrl}ingredients`)
+    fetch(`${baseUrl}ingredients`)
     .then(checkResponse)
     .then(data => {
       const dataCards = data;
