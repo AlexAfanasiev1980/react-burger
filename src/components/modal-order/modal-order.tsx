@@ -1,19 +1,26 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import ReactDOM from 'react-dom';
 import * as React from 'react'
-import styleModal from './modal.module.css';
+import style from './modal-order.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import { RootState } from '../../services/reducers';
+
 
 interface ModalProps {
-  onClose: () => void
-  title?: string
+  onClose: () => void,
+  title?: string,
   children: React.ReactNode
 }
 
-export default function Modal(props:ModalProps) {
+export default function ModalOrder(props:ModalProps) {
     const modalRoot = document.getElementById('modals')!;
+    const order = useSelector((store:RootState) => {
+      return store.ingredient.viewOrder
+    });
     const { onClose, title } = props;
+    
     useEffect(() => {
       const handleEscClose = (e:any) => {
         if (e.key === 'Escape') {
@@ -33,13 +40,13 @@ export default function Modal(props:ModalProps) {
     return ReactDOM.createPortal(
       ( 
         <>
-          <div className={styleModal.modal_container}>
-            <div className={styleModal.modal}>
-              <div className={styleModal.header}>
-                <p className='text text_type_main-large'>
-                  {props.title}
+          <div className={style.modal_container}>
+            <div className={style.modal}>
+              <div className={style.header}>
+                <p className='text text_type_digits-default'>
+                  {`#${order && order.number}`}
                 </p>
-                <button className={`${styleModal.buttonClose}`} onClick={onClose}>
+                <button className={`${style.buttonClose}`} onClick={onClose}>
                   <CloseIcon type="primary" />
                 </button>
               </div>

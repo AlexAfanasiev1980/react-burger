@@ -1,6 +1,7 @@
 import { checkResponse } from './index';
 import { Ingredient } from '../../utils/types';
 import { baseUrl } from '../api';
+import { getCookie } from '../utils';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
@@ -15,17 +16,20 @@ export const sendOrder = (selectCards:any) => {
   return function(dispatch:any) {
     const cardsId = selectCards.map((card:Ingredient) => card._id);
     const cardsBun = selectCards.filter((card:Ingredient) => card.type === 'bun');
+    const token:any = getCookie('token');
     if (cardsId.length !==0 && cardsBun.length !== 0) {
     const params = {
       method: 'POST',
       headers: {
-       'Content-Type': 'application/json'
+       'Content-Type': 'application/json',
+       Authorization: 'Bearer ' + token
       },
       body: JSON.stringify({
       "ingredients": cardsId
       })
     }
-    fetch(`${baseUrl}orders`, params)
+    console.log(params);
+    fetch(`http://norma.nomoreparties.space/api/orders`, params)
     .then(checkResponse)
     .then(data => {
       const orderObject = data;

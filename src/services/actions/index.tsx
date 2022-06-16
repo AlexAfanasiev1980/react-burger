@@ -6,6 +6,8 @@ export const SELECTED_INGREDIENTS = 'SELECTED_INGREDIENTS';
 export const VIEW_INGREDIENTS = 'VIEW_INGREDIENT';
 export const PRICE = 'PRICE';
 export const VIEWED_INGREDIENT = 'VIEWED_INGREDIENT';
+export const VIEWED_ORDER = 'VIEWED_ORDER';
+
 import { baseUrl } from '../api';
 
 export function checkResponse(res:any) {

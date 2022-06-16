@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './login.module.css';
+import styles from './index.module.css';
 import { checkResponse } from '../services/actions/index';
 import { getPasswordRequest } from '../services/api';
 import { useAuth } from '../services/auth';

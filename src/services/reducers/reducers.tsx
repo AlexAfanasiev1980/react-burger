@@ -1,5 +1,5 @@
 import { SELECTED_INGREDIENTS, PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
-  GET_ITEMS_REQUEST, GET_ITEMS_FAILED } from '../actions/index';
+  GET_ITEMS_REQUEST, GET_ITEMS_FAILED, VIEWED_ORDER } from '../actions/index';
 import { 
     ADD_ITEM, 
     DELETE_ITEM, 
@@ -15,6 +15,7 @@ const initialState = {
   baseIngredients: [],
   selectedIngredients: [],
   viewIngredient: {},
+  viewOrder: {},
   isLoading: false,
   isError: '',
   order: {},
@@ -113,6 +114,12 @@ export const ingredientReducer = (state = initialState, action:any) => {
         modalVisible: false
       };
     }
+      case VIEWED_ORDER: {
+        return {
+          ...state,
+          viewOrder: action.payload
+        };
+      };
     default: {
       return state;
     }
