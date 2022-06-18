@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import * as React from 'react'
 import style from './modal-order.module.css';
@@ -7,6 +8,9 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { RootState } from '../../services/reducers';
 
+interface IdDate {
+  id: string;
+}
 
 interface ModalProps {
   onClose: () => void,
@@ -15,10 +19,16 @@ interface ModalProps {
 }
 
 export default function ModalOrder(props:ModalProps) {
+  const id: IdDate = useParams();
     const modalRoot = document.getElementById('modals')!;
-    const order = useSelector((store:RootState) => {
-      return store.ingredient.viewOrder
+    const orders = useSelector((store: RootState) => {
+      return store.order.messages.orders;
     });
+    let order;
+    if (orders) {
+      order = orders.find((el: any) => el._id === id.id);
+    }
+
     const { onClose, title } = props;
     
     useEffect(() => {
@@ -34,8 +44,6 @@ export default function ModalOrder(props:ModalProps) {
         window.removeEventListener('keydown', handleEscClose);
       }
     }, [onClose]);
-
-    
 
     return ReactDOM.createPortal(
       ( 

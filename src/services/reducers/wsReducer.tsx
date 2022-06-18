@@ -3,13 +3,13 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
-  WS_GET_MESSAGE_USER
+  // WS_GET_MESSAGE_USER
 } from "../action-types";
 
 const initialState = {
   wsConnected: false,
   messages: [],
-  messagesUser: [],
+  // messagesUser: [],
   error: undefined,
 };
 
@@ -42,12 +42,12 @@ export const wsReducer = (state = initialState, action:any) => {
                 error: undefined,
         messages: action.payload
       };
-      case WS_GET_MESSAGE_USER:
-        return {
-          ...state,
-                  error: undefined,
-          messagesUser: action.payload
-        };
+      // case WS_GET_MESSAGE_USER:
+      //   return {
+      //     ...state,
+      //             error: undefined,
+      //     messagesUser: action.payload
+      //   };
     default:
       return state;
   }

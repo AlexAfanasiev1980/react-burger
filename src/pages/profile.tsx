@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Router, Switch, Route } from "react-router-dom";
 import { ProfileDataPage, OrdersPage, NotFound404 } from ".";
 import { WS_CONNECTION_CLOSED } from '../services/action-types';
-import { WS_CONNECTION_START_USER } from '../services/action-types/wsActionTypes';
+import { WS_CONNECTION_START } from '../services/action-types/wsActionTypes';
 import { useAuth } from "../services/auth";
 import { ProtectedRoute } from "../components/protected-routh";
 import { RootState } from '../services/reducers';
+import { getCookie } from '../services/utils';
 const links = ["Профиль", "История заказов", "Выход"];
 
 export function ProfilePage(props:any) {
@@ -26,15 +27,6 @@ export function ProfilePage(props:any) {
   const state = useSelector((store:RootState) => {
     return store.user
   });
-
-  useEffect(
-    () => {
-      if (state.user.name) {
-        dispatch({ type: WS_CONNECTION_START_USER });
-      }
-    },
-    [state.user.name]
-  );
 
   return (
     <>

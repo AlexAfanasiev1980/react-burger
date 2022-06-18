@@ -28,7 +28,7 @@ export const sendOrder = (selectCards:any) => {
       "ingredients": cardsId
       })
     }
-    console.log(params);
+    // console.log(params);
     fetch(`http://norma.nomoreparties.space/api/orders`, params)
     .then(checkResponse)
     .then(data => {

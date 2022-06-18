@@ -4,7 +4,7 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 
 function AppHeader() {
@@ -58,7 +58,9 @@ function AppHeader() {
             </li>
           </ul>   
         </nav>
+        <Link to='/'>
         <img src={logo} alt="logo" className={headerStyles.logo}/>
+        </Link>
         <NavLink 
           id="profile" 
           className={`${headerStyles.link}`} 

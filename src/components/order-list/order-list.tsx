@@ -42,7 +42,7 @@ export function OrderItem(props: any) {
     const otherDay = new Date(order.createdAt);
     const other = otherDay.valueOf();
     
-    const num = (today-other)/86400000;
+    const num = Math.floor((today-other)/86400000);
     if (num <= 1) {
       day = 'Сегодня, ' + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
     } else if (num <= 2) {

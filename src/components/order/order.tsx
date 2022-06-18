@@ -53,16 +53,9 @@ function OrderIngredient(props: any) {
 export default function Order(props: IngredientProps) {
   const id: IdDate = useParams();
   const { path } = useRouteMatch();
-  let orders;
-  if (path === '/profile/orders/:id') {
-    orders = useSelector((store: RootState) => {
-      return store.order.messagesUser.orders;
-    });
-  } else {
-    orders = useSelector((store: RootState) => {
+  const orders = useSelector((store: RootState) => {
       return store.order.messages.orders;
     });
-  }
 
   const cards = useSelector((store: RootState) => {
     return store.ingredient.baseIngredients;
@@ -89,7 +82,7 @@ export default function Order(props: IngredientProps) {
       const otherDay = new Date(order.createdAt);
       const other = otherDay.valueOf();
 
-      const num = (today - other) / 86400000;
+      const num = Math.floor((today - other) / 86400000);
       if (num <= 1) {
         day =
           "Сегодня, " +

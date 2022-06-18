@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import {
   Input,
@@ -10,13 +10,14 @@ import { setUserRequest } from "../services/api";
 import { checkResponse } from "../services/actions/index";
 import { useDispatch } from "react-redux";
 import { GET_USER_SUCCESS } from "../services/actions/user-actions";
+import { useAuth } from '../services/auth';
 
 export function RegisterPage() {
   const [value, setValue] = useState("");
   const [valuePass, setValuePass] = useState("");
   const [valueName, setValueName] = useState("");
+  const [register, setRegister] = useState(false);
   const dispatch = useDispatch();
-
   const onChange = (e: any) => {
     setValuePass(e.target.value);
   };
@@ -31,6 +32,7 @@ export function RegisterPage() {
             type: GET_USER_SUCCESS,
             payload: res,
           });
+          setRegister(true);
         }
       })
       .catch((e) => {
@@ -40,6 +42,16 @@ export function RegisterPage() {
     setValuePass("");
     setValueName("");
   };
+
+  if (register) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/'
+        }}
+      />
+    );
+  }
 
   return (
     <div className={styles.wrapper}>

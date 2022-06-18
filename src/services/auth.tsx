@@ -1,7 +1,7 @@
 import React, { useContext, useState, createContext, useCallback } from "react";
 import { deleteCookie, setCookie } from "./utils";
 import { loginRequest, getUserRequest, logoutRequest } from "./api";
-import { GET_USER_SUCCESS, LOGOUT_USER } from "./actions/user-actions";
+import { LOGOUT_USER } from "./actions/user-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { checkResponse } from "./actions/index";
 import { RootState } from "./reducers";

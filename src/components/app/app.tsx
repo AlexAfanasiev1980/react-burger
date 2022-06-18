@@ -23,7 +23,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { getMessages, getUser, getWsConnected } from '../../services/selectors';
 import { ProtectedRoute } from '../protected-routh';
 import { getItems } from '../../services/actions/index';
-import { WS_CONNECTION_START } from "../../services/action-types";
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from "../../services/action-types";
 import { LoginPage, FeedPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
 
 function App() {
@@ -93,10 +93,6 @@ function App() {
   useEffect(() => {
     dispatch(getItems());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
-  }, []);
   
   const modalOrder = (
     <Modal onClose={handleCloseModal} title=''> 
@@ -151,12 +147,12 @@ function App() {
                 onClose={handleCloseModal}
               />
           </Route>
-          <Route path={`/profile/orders/:id`} exact={true}>
+          <ProtectedRoute path={`/profile/orders/:id`} exact={true}>
               <OrderPage
                 title={''}
                 onClose={handleCloseModal}
               />
-          </Route>
+          </ProtectedRoute>
           <Route>
             <NotFound404 />
           </Route>
