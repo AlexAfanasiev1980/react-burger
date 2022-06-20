@@ -1,4 +1,3 @@
-// import { HomePage } from './home';
 import { LoginPage } from './login';
 import { RegisterPage } from './register';
 import { NotFound404 } from './not-found';
@@ -8,6 +7,7 @@ import { IngredientsPage } from './ingredients';
 import { ProfilePage } from './profile';
 import { ProfileDataPage } from './profile-pages/profile-data';
 import { OrdersPage } from './profile-pages/orders-page';
+import { FeedPage } from './feed';
 
 export {  LoginPage, 
   RegisterPage, 
@@ -17,5 +17,6 @@ export {  LoginPage,
   ResetPasswordPage,
   ProfilePage,
   ProfileDataPage,
-  OrdersPage
+  OrdersPage,
+  FeedPage
  };

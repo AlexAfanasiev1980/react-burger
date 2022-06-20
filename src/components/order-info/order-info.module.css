@@ -1,0 +1,32 @@
+.container {
+  width: 580px;
+}
+
+.ordersContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listNumber {
+  min-width: 253px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 245px;
+}
+
+.listFinal {
+  color: #00CCCC;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+.title {
+  font-weight: 700;
+}

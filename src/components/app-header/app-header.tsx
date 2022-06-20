@@ -4,7 +4,7 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import logo from '../../images/logo.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 
 function AppHeader() {
@@ -34,7 +34,7 @@ function AppHeader() {
                 onClick={onClickHendler} 
                 to='/'
                 exact
-              >
+            >
                 <BurgerIcon type={isActive.burger ? "primary" : "secondary"} />
                 <p className={`ml-2 text_type_main-default`}>
                   Конструктор
@@ -47,7 +47,7 @@ function AppHeader() {
                 className={`pt-4 pr-5 pb-4 pl-5 ${headerStyles.link}`} 
                 activeClassName={headerStyles.activeLink} 
                 onClick={onClickHendler} 
-                to='/order'
+                to='/feed'
                 exact
               >
                   <ListIcon type={isActive.list ? "primary" : "secondary"} />
@@ -58,7 +58,9 @@ function AppHeader() {
             </li>
           </ul>   
         </nav>
+        <Link to='/'>
         <img src={logo} alt="logo" className={headerStyles.logo}/>
+        </Link>
         <NavLink 
           id="profile" 
           className={`${headerStyles.link}`} 

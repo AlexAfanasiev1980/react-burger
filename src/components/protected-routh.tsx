@@ -7,7 +7,7 @@ export function ProtectedRoute({ children, ...rest }:any) {
   const [isUserLoaded, setUserLoaded] = useState(false);
   const init = async () => {
      await getUser();
-    setUserLoaded(true);
+     setUserLoaded(true);
   };
 
   

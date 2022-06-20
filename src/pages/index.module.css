@@ -102,3 +102,14 @@
   opacity: 0.4;
   width: 320px;
 }
+
+.main {
+  display: flex;
+  justify-content: center;
+  width: 1240px;
+  margin: 40px auto 0 auto;
+}
+
+.section {
+  width: 860px;
+}

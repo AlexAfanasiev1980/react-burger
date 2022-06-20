@@ -4,11 +4,14 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
+import ModalOrder from '../modal-order/modal-order';
+import Order from '../order/order';
+import OrderPage from '../order/order-page';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import IngredientDetailsPage from '../ingredient-details/ingredient-details-page';
 import { useDispatch, useSelector } from 'react-redux';
-import { VIEWED_INGREDIENT } from '../../services/actions/index';
+import { VIEWED_INGREDIENT, VIEWED_ORDER } from '../../services/actions/index';
 import { MODAL_VISIBLE, CLOSE_MODAL } from '../../services/actions/actions';
 import { sendOrder } from '../../services/actions/actions';
 import { RootState } from '../../services/reducers';
@@ -17,9 +20,11 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Ingredient } from '../../utils/types';
 import { Redirect, Switch, Route, Router } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router-dom';
+import { getMessages, getUser, getWsConnected } from '../../services/selectors';
 import { ProtectedRoute } from '../protected-routh';
 import { getItems } from '../../services/actions/index';
-import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from "../../services/action-types";
+import { LoginPage, FeedPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
 
 function App() {
 
@@ -37,6 +42,7 @@ function App() {
   const location:any = useLocation();
   const background:any = location.state && location.state.background;
   const history:any = useHistory();
+
   const openModalIngredients = (card: Ingredient) => {
     dispatch({
       type: VIEWED_INGREDIENT,
@@ -46,7 +52,17 @@ function App() {
     dispatch({
       type: MODAL_VISIBLE
     });
-   
+  }
+
+  const openModalOrder = (order: any) => {
+    dispatch({
+      type: VIEWED_ORDER,
+      payload: order
+    })
+    setCurrentIngredient({...currentIngredient, isIngredient: true});
+    dispatch({
+      type: MODAL_VISIBLE
+    });
   }
 
   const openModal = (selectCards:any) => {
@@ -66,7 +82,12 @@ function App() {
       type: VIEWED_INGREDIENT,
       payload: {}
     });
-    history.push("/");
+    if (background) {
+      history.push(background.pathname);
+    } else {
+      history.push("/");
+    }
+
   }
 
   useEffect(() => {
@@ -93,6 +114,9 @@ function App() {
               </main>
             </DndProvider>
           </Route>
+          <Route path="/feed" exact={true}>
+            <FeedPage onClick={openModalOrder} />
+          </Route>
           <Route path="/login" exact={true}>
             <LoginPage />
           </Route>
@@ -106,10 +130,10 @@ function App() {
             <ResetPasswordPage />
           </Route>
           <ProtectedRoute path="/profile" exact={true}>
-            <ProfilePage />
+            <ProfilePage onClick={openModalOrder}/>
           </ProtectedRoute>
           <ProtectedRoute path="/profile/orders" exact={true}>
-            <ProfilePage />
+            <ProfilePage onClick={openModalOrder}/>
           </ProtectedRoute>
           <Route path={`/ingredients/:id`} exact={true}>
             <IngredientDetailsPage
@@ -117,6 +141,18 @@ function App() {
               onClose={handleCloseModal}
             />
           </Route>
+          <Route path={`/feed/:id`} exact={true}>
+              <OrderPage
+                title={''}
+                onClose={handleCloseModal}
+              />
+          </Route>
+          <ProtectedRoute path={`/profile/orders/:id`} exact={true}>
+              <OrderPage
+                title={''}
+                onClose={handleCloseModal}
+              />
+          </ProtectedRoute>
           <Route>
             <NotFound404 />
           </Route>
@@ -131,6 +167,22 @@ function App() {
                   onClose={handleCloseModal}
                 />
               </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <ModalOrder onClose={handleCloseModal} title={'Детали ингредиента'}>
+              <Order
+                title={'Детали ингредиента'}
+                onClose={handleCloseModal}
+              />
+            </ModalOrder>
+          </Route>
+          <Route path="/profile/orders/:id">
+            <ModalOrder onClose={handleCloseModal} >
+              <Order
+                title={'Детали ингредиента'}
+                onClose={handleCloseModal}
+              />
+            </ModalOrder>
           </Route>
         </Switch>
       }

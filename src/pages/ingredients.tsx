@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styleIngredient from '../components/ingredient-details/ingredient-details.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './login.module.css';
+import styles from './index.module.css';
 
 export function IngredientsPage() {
   const [valuePass, setValuePass] = useState('')
