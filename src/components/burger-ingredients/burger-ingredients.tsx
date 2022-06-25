@@ -108,6 +108,8 @@ function BurgerIngredients(props:BurgerProps) {
       
     }
 
+
+
     return (
       <section className={`${ingredientsStyles.ingredients} section-item`}>
         <h1 className={`mt-10 mb-5 text_type_main-large`}>Соберите бургер</h1>
