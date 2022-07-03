@@ -7,6 +7,7 @@ import {
   CloseIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Ingredient, IOrder } from '../../utils/types';
 
 interface IngredientProps {
   title: string;
@@ -17,10 +18,10 @@ interface IdDate {
   id: string;
 }
 
-function OrderIngredient(props: any) {
+function OrderIngredient(props: {ingredient: {_id: string, count: number}, cards: Array<Ingredient>}) {
   const { ingredient, cards } = props;
 
-  const card = cards.find((card: any) => {
+  const card = cards.find((card: Ingredient) => {
     return card._id === ingredient._id;
   });
 
@@ -62,17 +63,16 @@ export default function Order(props: IngredientProps) {
   });
   let sum = 0;
   let color;
-  let arr: any = [];
-  let order: any;
+  let arr: Array<{_id: string, count: number}> = [];
+  let order:IOrder | undefined;
   let day = "";
   const now = new Date();
   const today = now.setHours(23, 59, 59, 999).valueOf();
   if (orders) {
-    order = orders.find((el: any) => el._id === id.id);
+    order = orders.find((el: IOrder) => el._id === id.id);
     if (order) {
-     
-      sum = order.ingredients.reduce((acc: number, el: any) => {
-        const data = cards.find((item: any) => item._id === el);
+      sum = order.ingredients.reduce((acc: number, el: string) => {
+        const data:Ingredient | undefined = cards.find((item: Ingredient) => item._id === el);
         if (data) {
           const price = data.price;
           return acc + price;
@@ -129,15 +129,17 @@ export default function Order(props: IngredientProps) {
       color = {
         color: "#F2F2F3",
       };
+
       order.status === "Выполнен"
         ? (color.color = "#00CCCC")
         : order.status === "Отменен"
         ? (color.color = "#b50000")
         : null;
+
       const uniqueId = [...new Set(order.ingredients)];
 
-      arr = uniqueId.map((id: any, index: number) => {
-        let count = order.ingredients.filter((el: any) => el === id).length;
+      arr = uniqueId.map((id: string, index: number) => {
+        let count = order ? order.ingredients.filter((el: string) => el === id).length : 0;
         return {
           _id: id,
           count: count,
@@ -157,7 +159,7 @@ export default function Order(props: IngredientProps) {
           <h3 className="text text_type_main-medium mt-15">Состав:</h3>
           <ul className={style.list}>
             {order.ingredients &&
-              arr.map((ingredient: any, index: number) => {
+              arr.map((ingredient: {_id: string, count: number}, index: number) => {
                 return (
                   <OrderIngredient
                     ingredient={ingredient}

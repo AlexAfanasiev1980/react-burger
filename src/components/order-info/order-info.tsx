@@ -4,10 +4,11 @@ import {
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./order-info.module.css";
 import { RootState } from "../../services/reducers";
 import { v4 as uuidv4 } from "uuid";
+import { IOrder } from "../../utils/types";
 
 export function OrderInfo() {
   const list = useSelector((store: RootState) => {
@@ -15,7 +16,10 @@ export function OrderInfo() {
       return store.order["messages"];
     }
   });
-  const orders = list.orders;
+  let orders: Array<IOrder> = [];
+  if (list) {
+    orders = list.orders;
+  }
 
   return (
     <section className={`${styles.container} pt-15`}>
@@ -26,7 +30,7 @@ export function OrderInfo() {
           </h2>
           <ul className={`${styles.list} ${styles.listFinal}`}>
             {orders &&
-              orders.map((order: any, index: any) => {
+              orders.map((order: IOrder, index: number) => {
                 if (order.status === "done") {
                   return (
                     <li
@@ -46,10 +50,13 @@ export function OrderInfo() {
           </h2>
           <ul className={`${styles.list} ${styles.listWork}`}>
             {orders &&
-              orders.map((order: any, index: any) => {
+              orders.map((order: IOrder, index: number) => {
                 if (order.status !== "done") {
                   return (
-                    <li className="text text_type_digits-default" key={uuidv4()}>
+                    <li
+                      className="text text_type_digits-default"
+                      key={uuidv4()}
+                    >
                       {order.number}
                     </li>
                   );
@@ -62,13 +69,15 @@ export function OrderInfo() {
         <h2 className={`${styles.title} text text_type_main-medium`}>
           Выполнено за все время:
         </h2>
-        <p className="text text_type_digits-large">{list.total}</p>
+        {list && <p className="text text_type_digits-large">{list.total}</p>}
       </div>
       <div>
         <h2 className={`${styles.title} text text_type_main-medium`}>
           Выполнено за сегодня:
         </h2>
-        <p className="text text_type_digits-large">{list.totalToday}</p>
+        {list && (
+          <p className="text text_type_digits-large">{list.totalToday}</p>
+        )}
       </div>
     </section>
   );

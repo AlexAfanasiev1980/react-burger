@@ -1,4 +1,4 @@
-import { SELECTED_INGREDIENTS, PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
+import { PRICE, VIEWED_INGREDIENT, GET_ITEMS_SUCCESS,
   GET_ITEMS_REQUEST, GET_ITEMS_FAILED, VIEWED_ORDER } from '../actions/index';
 import { 
     ADD_ITEM, 
@@ -10,21 +10,67 @@ import {
     SET_ORDER,
     CLOSE_MODAL 
   } from '../actions/actions';
+import { Ingredient, IOrder } from '../../utils/types';
+import type { TCardsActions } from '../actions/index';
+import type { TCostructorActions } from '../actions/actions';
 
-const initialState = {
+  type TInitialState = {
+    baseIngredients: Array<Ingredient>,
+    selectedIngredients: Array<Ingredient>,
+    viewIngredient: Ingredient,
+    viewOrder: IOrder,
+    isLoading: boolean,
+    isError: string,
+    order: IOrder,
+    price: number,
+    numOrder: number,
+    modalVisible: boolean
+  }
+
+const initialState: TInitialState = {
   baseIngredients: [],
   selectedIngredients: [],
-  viewIngredient: {},
-  viewOrder: {},
+  viewIngredient: {
+    calories: 0,
+    carbohydrates: 0,
+    fat: 0,
+    image: '',
+    image_large: '',
+    image_mobile: '',
+    name: '',
+    price: 0,
+    proteins: 0,
+    type: '',
+    __v: 0,
+    _id: '',
+    uuid: ''
+  },
+  viewOrder: {
+    createdAt: '',
+    ingredients: [''],
+    name: '',
+    number: 0,
+    status: '',
+    updatedAt: '',
+    _id: ''
+  },
   isLoading: false,
   isError: '',
-  order: {},
+  order: {
+    createdAt: '',
+    ingredients: [''],
+    name: '',
+    number: 0,
+    status: '',
+    updatedAt: '',
+    _id: ''
+  },
   price: 0,
   numOrder: 0,
   modalVisible: false
 };
 
-export const ingredientReducer = (state = initialState, action:any) => { 
+export const ingredientReducer = (state = initialState, action: TCardsActions | TCostructorActions): TInitialState => { 
   switch (action.type) {
     case GET_ITEMS_SUCCESS: {
       return {
@@ -32,12 +78,6 @@ export const ingredientReducer = (state = initialState, action:any) => {
         baseIngredients: action.data,
         isLoading: false,
         isError: '',
-      };
-    }
-    case SELECTED_INGREDIENTS: {
-      return {
-        ...state,
-        selectedIngredients: action.data
       };
     }
     case PRICE: {

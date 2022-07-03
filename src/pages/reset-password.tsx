@@ -5,11 +5,12 @@ import styles from './index.module.css';
 import { setResetPasswordRequest } from '../services/api';
 import { checkResponse } from '../services/actions/index';
 import { useAuth } from '../services/auth';
+import { IAuth } from '../utils/types';
 
 export function ResetPasswordPage() {
   const [form, setValue] = useState({ password: '', token: '' });
   const [passwordReset, setPasswordReset] = useState(false);
-  const auth:any = useAuth();
+  const auth:IAuth = useAuth();
   const onChange = (e:any) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }

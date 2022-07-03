@@ -5,11 +5,12 @@ import styles from './index.module.css';
 import { checkResponse } from '../services/actions/index';
 import { getPasswordRequest } from '../services/api';
 import { useAuth } from '../services/auth';
+import { IAuth } from "../utils/types";
 
 export function ForgotPasswordPage() {
   const [value, setValue] = useState('')
   const [emailReset, setEmailReset] = useState(false);
-  const auth:any = useAuth();
+  const auth:IAuth = useAuth();
 
   const onClick = (e:any) => {
     e.preventDefault();

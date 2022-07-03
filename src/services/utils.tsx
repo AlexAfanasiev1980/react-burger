@@ -5,7 +5,7 @@ export function getCookie(name:any) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name:any, value:any, props:any) {
+export function setCookie(name:string, value:any, props:any) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -28,6 +28,6 @@ export function setCookie(name:any, value:any, props:any) {
   document.cookie = updatedCookie;
 }
 
-export function deleteCookie(name:any) {
+export function deleteCookie(name:string) {
   setCookie(name, null, { expires: -1 });
 }

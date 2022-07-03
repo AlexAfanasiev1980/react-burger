@@ -7,6 +7,7 @@ import style from './modal-order.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { RootState } from '../../services/reducers';
+import { IOrder } from '../../utils/types';
 
 interface IdDate {
   id: string;
@@ -26,7 +27,7 @@ export default function ModalOrder(props:ModalProps) {
     });
     let order;
     if (orders) {
-      order = orders.find((el: any) => el._id === id.id);
+      order = orders.find((el: IOrder) => el._id === id.id);
     }
 
     const { onClose, title } = props;

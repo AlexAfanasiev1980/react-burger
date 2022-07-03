@@ -3,10 +3,7 @@ import { getCookie } from '../utils';
 
 export const socketMiddleware = (wsUrl:any, wsActions:any) => {
   return (store:any) => {
-  
-    let socket:any = null;
-    let socketUser:any = null;
-
+  let socket:any = null;
   return (next:any) => (action:any) => {
     const { dispatch, getState } = store;
     const { type, payload } = action;
@@ -16,7 +13,7 @@ export const socketMiddleware = (wsUrl:any, wsActions:any) => {
     if (type === wsInit) {
       socket = new WebSocket(`${wsUrl}${payload}`);
     }  
-// console.log(socket)
+
     if (socket && type === onClose) {
       socket.close(1000);
     }  
@@ -33,12 +30,10 @@ if (socket) {
 
         socket.onmessage = (event:any) => {
           const { data } = event;
-          // console.log(JSON.parse(data));
           dispatch({ type: onMessage, payload: JSON.parse(data) });
         };
 
         socket.onclose = (event:any) => {
-          // console.log('Закрываю');
           dispatch({ type: onClose, payload: event });
         };
 

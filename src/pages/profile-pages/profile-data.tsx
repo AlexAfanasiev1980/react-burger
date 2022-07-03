@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../services/reducers";
 import { checkResponse } from "../../services/actions/index";
 import { UPDATE_USER_SUCCESS } from "../../services/actions/user-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { apdateUserDataRequest } from "../../services/api";
 
 export function ProfileDataPage() {

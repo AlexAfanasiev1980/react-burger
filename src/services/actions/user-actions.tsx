@@ -1,12 +1,32 @@
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const LOGOUT_USER = 'LOGOUT_USER'
+export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
+export const UPDATE_USER_SUCCESS: 'UPDATE_USER_SUCCESS' = 'UPDATE_USER_SUCCESS';
+export const LOGOUT_USER: 'LOGOUT_USER' = 'LOGOUT_USER';
 import { getUserRequest, apdateTokenRequest, loginRequest, logoutRequest } from '../api';
 import { checkResponse } from './index';
 import { deleteCookie, setCookie } from '../utils';
+import { AppDispatch, AppThunk } from '../../utils/index';
 
-export function getUserDate(user:any) {
-  return function(dispatch: any) {
+export interface IGetUserSuccessAction {
+  readonly type: typeof GET_USER_SUCCESS;
+  readonly payload: { password: string, email: string, name: string };
+}
+
+export interface IUpdateUserSuccessAction {
+  readonly type: typeof UPDATE_USER_SUCCESS;
+  readonly payload: {name: string, email: string, password: string};
+}
+
+export interface ILogoutUserAction {
+  readonly type: typeof LOGOUT_USER;
+}
+
+export type TUserActions =
+| IGetUserSuccessAction
+| IUpdateUserSuccessAction
+| ILogoutUserAction;
+
+export const getUserDate: AppThunk = (user:{ password: string, email: string, name: string }) => {
+  return function(dispatch: AppDispatch) {
     getUserRequest()
     .then(checkResponse)
     .then(data => {
@@ -42,8 +62,8 @@ export function getUserDate(user:any) {
   }
 }
 
-export function signInUser(form:any) {
-  return function(dispatch: any) {
+export const signInUser: AppThunk = (form: {email: string, password: string}) => {
+  return function(dispatch: AppDispatch) {
     loginRequest(form)
       .then(checkResponse)
       .then(data => {
@@ -70,8 +90,8 @@ export function signInUser(form:any) {
   }
 }
 
-export function signOutUser(token:any) {
-  return function(dispatch: any) {
+export const signOutUser: AppThunk = (token:string|null) => {
+  return function(dispatch: AppDispatch) {
     logoutRequest(token)
     .then(checkResponse)
     .then(data => data)

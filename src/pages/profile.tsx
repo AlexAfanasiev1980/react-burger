@@ -1,26 +1,28 @@
 import React, { useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./index.module.css";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { Router, Switch, Route } from "react-router-dom";
 import { ProfileDataPage, OrdersPage, NotFound404 } from ".";
 import { WS_CONNECTION_CLOSED } from '../services/action-types';
-import { WS_CONNECTION_START } from '../services/action-types/wsActionTypes';
 import { useAuth } from "../services/auth";
 import { ProtectedRoute } from "../components/protected-routh";
 import { RootState } from '../services/reducers';
 import { getCookie } from '../services/utils';
+import { IAuth, IOrder } from "../utils/types";
 const links = ["Профиль", "История заказов", "Выход"];
 
-export function ProfilePage(props:any) {
-  let auth: any = useAuth();
+export function ProfilePage(props: {onClick: (order: IOrder)=> void}) {
+  let auth: IAuth = useAuth();
   const dispatch = useDispatch();
   const { onClick } = props;
   let logout = useCallback(
     (e) => {
       e.preventDefault();
-      auth.signOut(localStorage.getItem("token"));
-      dispatch({ type: WS_CONNECTION_CLOSED });
+      if (localStorage.getItem("refreshToken")) {
+        auth.signOut(localStorage.getItem("refreshToken"));
+      }
+      dispatch({ type: WS_CONNECTION_CLOSED, payload: ''  });
     },
     [auth]
   );

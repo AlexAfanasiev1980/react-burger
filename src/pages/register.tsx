@@ -8,7 +8,7 @@ import {
 import styles from "./index.module.css";
 import { setUserRequest } from "../services/api";
 import { checkResponse } from "../services/actions/index";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../services/hooks";
 import { GET_USER_SUCCESS } from "../services/actions/user-actions";
 import { useAuth } from '../services/auth';
 

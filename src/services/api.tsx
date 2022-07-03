@@ -17,7 +17,7 @@ export const serializeQuery = (queryParams:any) =>
     return `${acc}${encodeURIComponent(key)}=${encodeURIComponent(value)}${postfix}`;
   }, '?');
 
-export const getPasswordRequest = async (email:any) => {
+export const getPasswordRequest = async (email:{email: string}) => {
   return await fetch(`${baseUrl}password-reset`, {
     method: 'POST',
     mode: 'cors',
@@ -32,7 +32,7 @@ export const getPasswordRequest = async (email:any) => {
   });
 };
 
-export const setResetPasswordRequest = async (form:any) => {
+export const setResetPasswordRequest = async (form:{password: string, token: string}) => {
   return await fetch(`${baseUrl}password-reset/reset`, {
     method: 'POST',
     mode: 'cors',
@@ -47,7 +47,7 @@ export const setResetPasswordRequest = async (form:any) => {
   });
 };
 
-export const loginRequest = async (form:any) => {
+export const loginRequest = async (form:{email: string, password: string}) => {
   return await fetch(`${baseUrl}auth/login`, {
     method: 'POST',
     mode: 'cors',
@@ -76,7 +76,7 @@ export const getUserRequest = async () =>
     referrerPolicy: 'no-referrer'
   });
 
-  export const apdateUserDataRequest = async (form:any) =>
+  export const apdateUserDataRequest = async (form:{email: string, password: string, name: string}) =>
   await fetch(`${baseUrl}auth/user`, {
     method: 'PATCH',
     mode: 'cors',
@@ -105,7 +105,7 @@ export const getUserRequest = async () =>
     body: localStorage.getItem('refreshToken')
   });
 
-export const logoutRequest = async (token:string) => {
+export const logoutRequest = async (token:string|null) => {
   return await fetch(`${baseUrl}auth/logout`, {
     method: 'POST',
     mode: 'cors',
@@ -120,7 +120,7 @@ export const logoutRequest = async (token:string) => {
   });
 };
 
-export const setUserRequest = async (data:any) => {
+export const setUserRequest = async (data:{email: string, password: string, name: string}) => {
   return await fetch(`${baseUrl}auth/register`, {
     method: 'POST',
     headers: {
