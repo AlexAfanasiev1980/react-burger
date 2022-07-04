@@ -6,12 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./order-info.module.css";
-import { RootState } from "../../services/reducers";
 import { v4 as uuidv4 } from "uuid";
 import { IOrder } from "../../utils/types";
 
 export function OrderInfo() {
-  const list = useSelector((store: RootState) => {
+  const list = useSelector((store) => {
     if (store.order) {
       return store.order["messages"];
     }
@@ -30,7 +29,7 @@ export function OrderInfo() {
           </h2>
           <ul className={`${styles.list} ${styles.listFinal}`}>
             {orders &&
-              orders.map((order: IOrder, index: number) => {
+              orders.map((order, index) => {
                 if (order.status === "done") {
                   return (
                     <li
@@ -50,7 +49,7 @@ export function OrderInfo() {
           </h2>
           <ul className={`${styles.list} ${styles.listWork}`}>
             {orders &&
-              orders.map((order: IOrder, index: number) => {
+              orders.map((order, index) => {
                 if (order.status !== "done") {
                   return (
                     <li

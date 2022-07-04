@@ -13,17 +13,17 @@ export interface IWsConnectionStartAction {
 
 export interface IWsConnectionSuccessAction {
   readonly type: typeof WS_CONNECTION_SUCCESS;
-  readonly payload: any;
+  readonly payload: Event;
 }
 
 export interface IWsConnectionErrorAction {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: any;
+  readonly payload: boolean | undefined
 }
 
 export interface IWsConnectionClosedAction {
   readonly type: typeof WS_CONNECTION_CLOSED;
-  readonly payload: any;
+  readonly payload: Event;
 }
 
 export interface IWsGetMessageAction {
@@ -43,3 +43,12 @@ export type TConnectionActions =
 | IWsConnectionClosedAction
 | IWsGetMessageAction
 | IWsSendMessageAction;
+
+export type TWSActions = {
+  wsInit: typeof WS_CONNECTION_START,
+  wsSendMessage: typeof WS_SEND_MESSAGE,
+  onOpen: typeof WS_CONNECTION_SUCCESS,
+  onClose: typeof WS_CONNECTION_CLOSED,
+  onError: typeof WS_CONNECTION_ERROR,
+  onMessage: typeof WS_GET_MESSAGE
+}

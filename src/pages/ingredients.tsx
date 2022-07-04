@@ -6,9 +6,6 @@ import styles from './index.module.css';
 export function IngredientsPage() {
   const [valuePass, setValuePass] = useState('')
   const [valueName, setValueName] = useState('')
-  const onChange = (e:any) => {
-    setValuePass(e.target.value)
-  }
   const inputRefMail = useRef<HTMLInputElement>(null);
 
 

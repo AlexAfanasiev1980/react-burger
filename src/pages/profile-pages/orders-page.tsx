@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { OrderLine } from "../../components/order-list/order-list";
-import { RootState } from "../../services/reducers";
 import { getCookie } from '../../services/utils';
 import { WS_CONNECTION_CLOSED } from '../../services/action-types';
 import { WS_CONNECTION_START } from '../../services/action-types/wsActionTypes';
@@ -11,13 +10,13 @@ import { IOrder } from '../../utils/types';
 export function OrdersPage(props: {onClick: (order: IOrder) => void}) {
   const { onClick } = props;
   const dispatch = useDispatch();
-  const list = useSelector((store: RootState) => {
+  const list = useSelector((store) => {
     if (store.order) {
       return store.order["messages"];
     }
   });
   console.log(list)
-  const state = useSelector((store:RootState) => {
+  const state = useSelector((store) => {
     return store.user
   });
 

@@ -2,7 +2,7 @@ import { useAuth } from '../services/auth';
 import { Redirect, Route } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-export function ProtectedRoute({ children, ...rest }:any) {
+export function ProtectedRoute({ children, ...rest }:{children:React.ReactNode, path:string, exact: boolean}) {
   let { getUser, ...auth } = useAuth();
   const [isUserLoaded, setUserLoaded] = useState(false);
   const init = async () => {

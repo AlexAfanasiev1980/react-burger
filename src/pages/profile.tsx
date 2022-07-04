@@ -7,7 +7,6 @@ import { ProfileDataPage, OrdersPage, NotFound404 } from ".";
 import { WS_CONNECTION_CLOSED } from '../services/action-types';
 import { useAuth } from "../services/auth";
 import { ProtectedRoute } from "../components/protected-routh";
-import { RootState } from '../services/reducers';
 import { getCookie } from '../services/utils';
 import { IAuth, IOrder } from "../utils/types";
 const links = ["Профиль", "История заказов", "Выход"];
@@ -26,7 +25,7 @@ export function ProfilePage(props: {onClick: (order: IOrder)=> void}) {
     },
     [auth]
   );
-  const state = useSelector((store:RootState) => {
+  const state = useSelector((store) => {
     return store.user
   });
 
@@ -36,7 +35,7 @@ export function ProfilePage(props: {onClick: (order: IOrder)=> void}) {
         <div className={`${styles.container} ${styles.containerItems}`}>
           <nav>
             <ul className={styles.items}>
-              {links.map((link: string, index) => {
+              {links.map((link, index) => {
                 let to = "";
                 link === "Профиль"
                   ? (to = "/profile")

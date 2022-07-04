@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef, ChangeEvent } from "react";
 import { Redirect, Link, useLocation } from "react-router-dom";
 import {
   Input,
@@ -16,8 +16,9 @@ export function LoginPage() {
   const auth: IAuth = useAuth();
   const [form, setValue] = useState({ email: "", password: "" });
 
-  const onChange = (e: any) => {
+  const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    // console.log(e.target.name);
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 

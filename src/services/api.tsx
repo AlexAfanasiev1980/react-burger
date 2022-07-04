@@ -4,7 +4,7 @@ export const baseUrl = 'https://norma.nomoreparties.space/api/';
 
 export const deserializeQuery = (query:any, noQuestionMark = false) => {
   const pairs = (noQuestionMark ? query : query.substring(1)).split('&');
-  const array = pairs.map((elem:any) => elem.split('='));
+  const array = pairs.map((elem:string) => elem.split('='));
   return Object.fromEntries(array);
 };
 

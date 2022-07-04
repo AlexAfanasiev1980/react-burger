@@ -3,7 +3,6 @@ import ingredientsStyles from './burger-ingredients.module.css';
 import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
-import { RootState } from '../../services/reducers';
 import { getItems } from '../../services/actions/index';
 import { useDrag } from "react-dnd";
 import { Ingredient, ILocation } from '../../utils/types';
@@ -83,13 +82,13 @@ const BurgerIngredients: FunctionComponent<BurgerProps> = (props) => {
     const sauceRef = useRef<HTMLDivElement>(null);
     const mainRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
-    const dataCards:Array<Ingredient> = useSelector((store:RootState) => {
+    const dataCards:Array<Ingredient> = useSelector((store) => {
       return store.ingredient.baseIngredients
     });
-    const ingredients = useSelector((store:RootState) => {
+    const ingredients = useSelector((store) => {
       return store.ingredient.selectedIngredients
     });
-    const isLoading = useSelector((store:RootState) => store.ingredient.isLoading);
+    const isLoading = useSelector((store) => store.ingredient.isLoading);
     const bun = dataCards.filter((card:Ingredient) => card.type==='bun');
     const sauce = dataCards.filter((card:Ingredient) => card.type==='sauce');
     const main = dataCards.filter((card:Ingredient) => card.type==='main');
@@ -130,7 +129,7 @@ const BurgerIngredients: FunctionComponent<BurgerProps> = (props) => {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {bun.map((card:Ingredient, index:number) => {
+                {bun.map((card, index) => {
                   return (
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
                   )
@@ -140,7 +139,7 @@ const BurgerIngredients: FunctionComponent<BurgerProps> = (props) => {
           <div ref={sauceRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {sauce.map((card:Ingredient, index:number) => {
+                {sauce.map((card, index) => {
                   return (
                   
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
@@ -152,7 +151,7 @@ const BurgerIngredients: FunctionComponent<BurgerProps> = (props) => {
           <div ref={mainRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {main.map((card:Ingredient, index:number) => {
+                {main.map((card, index) => {
                   return (
                    
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>

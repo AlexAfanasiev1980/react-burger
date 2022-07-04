@@ -12,7 +12,7 @@ export function ForgotPasswordPage() {
   const [emailReset, setEmailReset] = useState(false);
   const auth:IAuth = useAuth();
 
-  const onClick = (e:any) => {
+  const onClick = (e: React.FormEvent) => {
     e.preventDefault();
     getPasswordRequest({email: value})
     .then(checkResponse)

@@ -7,7 +7,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./order-list.module.css";
-import { RootState } from "../../services/reducers";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { ILocation, IOrder, IOnClick, Ingredient } from "../../utils/types";
 import { v4 as uuidv4 } from "uuid";
@@ -116,7 +115,7 @@ export function OrderItem(props: {
         )}
         <div className={`${styles.identification} mt-6`}>
           <ul className={styles.imageContainer}>
-            {order.ingredients.map((id: string, index: number) => {
+            {order.ingredients.map((id, index) => {
               const dataCard = cards.find((card: Ingredient) => card._id === id);
               if (index === 6) {
                 const styleModal = {
@@ -168,7 +167,7 @@ export function OrderLine(
   props: { orders: Array<IOrder>, type: string, onClick: (order: IOrder) => void }
 ) {
   const { orders, type, onClick } = props;
-  const dataCards = useSelector((store: RootState) => {
+  const dataCards = useSelector((store) => {
     return store.ingredient.baseIngredients;
   });
   const width = {
@@ -182,7 +181,7 @@ export function OrderLine(
     <main className={styles.main}>
       <ul className={styles.list} style={width}>
         {orders &&
-          orders.map((order: IOrder, index: number) => {
+          orders.map((order, index) => {
             return (
               <OrderItem
                 order={order}
@@ -200,7 +199,7 @@ export function OrderLine(
 
 export function OrderList(props: {onClick: (order: IOrder) => void}) {
   const { onClick } = props;
-  const list = useSelector((store: RootState) => {
+  const list = useSelector((store) => {
     if (store.order) {
       return store.order["messages"];
     }

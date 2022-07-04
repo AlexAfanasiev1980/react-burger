@@ -40,7 +40,7 @@ export const getUserDate: AppThunk = (user:{ password: string, email: string, na
     })
     .catch(e => {
       if (user.name) {
-        const data:any = apdateTokenRequest()
+        const data:Promise<void> = apdateTokenRequest()
         .then(checkResponse)
         .then(data => {
           let authToken;

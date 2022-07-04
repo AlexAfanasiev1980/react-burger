@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "../../services/hooks";
-import { RootState } from "../../services/reducers";
 import { useParams, useRouteMatch } from "react-router-dom";
 import style from "./order.module.css";
 import { getCookie } from '../../services/utils';
@@ -58,14 +57,14 @@ export default function OrderPage(props: IngredientProps) {
   const id: IdDate = useParams();
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
-  let orders = useSelector((store: RootState) => {
+  let orders = useSelector((store) => {
     return store.order.messages.orders;
   });
-  const state = useSelector((store:RootState) => {
+  const state = useSelector((store) => {
     return store.user
   });
 
-  const cards = useSelector((store: RootState) => {
+  const cards = useSelector((store) => {
     return store.ingredient.baseIngredients;
   });
   let sum = 0;
@@ -145,7 +144,7 @@ export default function OrderPage(props: IngredientProps) {
         : null;
       const uniqueId = [...new Set(order.ingredients)];
 
-      arr = uniqueId.map((id: string, index: number) => {
+      arr = uniqueId.map((id, index) => {
         let count: number = 0;
         if (order) {
           count = order.ingredients.filter((el: string) => el === id).length;
@@ -195,7 +194,7 @@ export default function OrderPage(props: IngredientProps) {
             <h3 className="text text_type_main-medium mt-15">Состав:</h3>
             <ul className={style.list}>
               {order.ingredients &&
-                arr.map((ingredient: {_id: string, count: number}, index: number) => {
+                arr.map((ingredient, index) => {
                   return (
                     <OrderIngredient
                       ingredient={ingredient}

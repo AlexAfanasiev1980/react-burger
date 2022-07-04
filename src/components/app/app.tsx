@@ -14,12 +14,10 @@ import { useDispatch, useSelector } from '../../services/hooks';
 import { VIEWED_INGREDIENT, VIEWED_ORDER } from '../../services/actions/index';
 import { MODAL_VISIBLE, CLOSE_MODAL } from '../../services/actions/actions';
 import { sendOrder } from '../../services/actions/actions';
-import { RootState } from '../../services/reducers';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Redirect, Switch, Route, Router } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router-dom';
-import { getMessages, getUser, getWsConnected } from '../../services/selectors';
 import { ProtectedRoute } from '../protected-routh';
 import { getItems } from '../../services/actions/index';
 import { LoginPage, FeedPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
@@ -32,10 +30,10 @@ function App() {
     isIngredient: false,
   });
 
-  const { viewIngredient, modalVisible, numOrder } = useSelector((store:RootState) => {
+  const { viewIngredient, modalVisible, numOrder } = useSelector((store) => {
     return store.ingredient
   });
-  const state = useSelector((store:RootState) => {
+  const state = useSelector((store) => {
     return store.user
   });
   const location:ILocation = useLocation();

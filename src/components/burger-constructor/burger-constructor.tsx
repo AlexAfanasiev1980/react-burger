@@ -3,7 +3,6 @@ import orderStyles from './burger-constructor.module.css';
 import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Subtract from '../../images/Subtract.svg';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { RootState } from '../../services/reducers';
 import { PRICE } from '../../services/actions/index';
 import { MOVE_CARD, ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
 import { useDrop, useDrag } from "react-dnd";
@@ -71,7 +70,7 @@ const IngredientCard = (props:{card:Ingredient, index: number, moveCard: (dragIn
       }
     },
     hover(item:any, monitor) {
-      console.log(item)
+      // console.log(item)
       if (!ref.current) {
         return
       }
@@ -118,15 +117,15 @@ const IngredientCard = (props:{card:Ingredient, index: number, moveCard: (dragIn
 function BurgerConstructor(props:BurgerConstructorProps) {
   
   const { onClick } = props;
-  const cards = useSelector((store:RootState) => {
+  const cards = useSelector((store) => {
     return store.ingredient.baseIngredients
   });
-  const selectCards  = useSelector((store:RootState) => {
+  const selectCards  = useSelector((store) => {
     return store.ingredient.selectedIngredients
   });
   let sum=0;
   let cardData:Ingredient[] = [];
-  const { selectedIngredients, price } = useSelector((store:RootState) => {
+  const { selectedIngredients, price } = useSelector((store) => {
     return {...store.ingredient}
   });
   const dispatch = useDispatch();
@@ -208,7 +207,7 @@ const [, dropTarget] = useDrop({
          }  
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {selectedIngredients.map((card: Ingredient, index:number, arr:Ingredient[]) => {
+            {selectedIngredients.map((card, index, arr) => {
               if (card.type !== 'bun') {
                 return (
                 <IngredientCard 

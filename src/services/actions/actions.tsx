@@ -66,8 +66,8 @@ export type TCostructorActions =
 
 export const sendOrder: AppThunk = (selectCards:ReadonlyArray<Ingredient>) => {
   return function(dispatch: AppDispatch) {
-    const cardsId = selectCards.map((card:Ingredient) => card._id);
-    const cardsBun = selectCards.filter((card:Ingredient) => card.type === 'bun');
+    const cardsId = selectCards.map((card) => card._id);
+    const cardsBun = selectCards.filter((card) => card.type === 'bun');
     const token: string | undefined = getCookie('token');
     if (cardsId.length !==0 && cardsBun.length !== 0) {
     const params = {

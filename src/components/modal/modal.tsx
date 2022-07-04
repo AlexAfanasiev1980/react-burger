@@ -15,7 +15,7 @@ export default function Modal(props:ModalProps) {
     const modalRoot = document.getElementById('modals')!;
     const { onClose, title } = props;
     useEffect(() => {
-      const handleEscClose = (e:any) => {
+      const handleEscClose = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           onClose();
         };

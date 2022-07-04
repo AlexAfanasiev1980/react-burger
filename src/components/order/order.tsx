@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/reducers";
+import { useSelector } from "../../services/hooks";
 import { useParams, useRouteMatch } from "react-router-dom";
 import style from "./order.module.css";
 import {
@@ -54,11 +53,11 @@ function OrderIngredient(props: {ingredient: {_id: string, count: number}, cards
 export default function Order(props: IngredientProps) {
   const id: IdDate = useParams();
   const { path } = useRouteMatch();
-  const orders = useSelector((store: RootState) => {
+  const orders = useSelector((store) => {
       return store.order.messages.orders;
     });
 
-  const cards = useSelector((store: RootState) => {
+  const cards = useSelector((store) => {
     return store.ingredient.baseIngredients;
   });
   let sum = 0;
@@ -138,7 +137,7 @@ export default function Order(props: IngredientProps) {
 
       const uniqueId = [...new Set(order.ingredients)];
 
-      arr = uniqueId.map((id: string, index: number) => {
+      arr = uniqueId.map((id, index) => {
         let count = order ? order.ingredients.filter((el: string) => el === id).length : 0;
         return {
           _id: id,
@@ -159,7 +158,7 @@ export default function Order(props: IngredientProps) {
           <h3 className="text text_type_main-medium mt-15">Состав:</h3>
           <ul className={style.list}>
             {order.ingredients &&
-              arr.map((ingredient: {_id: string, count: number}, index: number) => {
+              arr.map((ingredient, index) => {
                 return (
                   <OrderIngredient
                     ingredient={ingredient}
