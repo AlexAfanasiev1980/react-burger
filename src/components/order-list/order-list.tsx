@@ -5,20 +5,25 @@ import {
   DragIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./order-list.module.css";
-import { RootState } from "../../services/reducers";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
+import { ILocation, IOrder, IOnClick, Ingredient } from "../../utils/types";
 import { v4 as uuidv4 } from "uuid";
 
-export function OrderItem(props: any) {
+export function OrderItem(props: {
+  order: IOrder;
+  cards: Array<Ingredient>;
+  type: string;
+  onClick: (order: IOrder) => void;
+}) {
   const { order, cards, type, onClick } = props;
   const { url } = useRouteMatch();
-  const location: any = useLocation();
+  const location: ILocation = useLocation();
 
   const number = order.ingredients.length - 6;
-  const sum = order.ingredients.reduce((acc: number, el: any) => {
-    const data = cards.find((item: any) => item._id === el);
+  const sum = order.ingredients.reduce((acc: number, el: string) => {
+    const data = cards.find((item: Ingredient) => item._id === el);
     if (data) {
       const price = data.price;
       return acc + price;
@@ -35,25 +40,55 @@ export function OrderItem(props: any) {
     ? (color.color = "#b50000")
     : null;
 
-    let day = '';
-    const now = new Date();
-    const today = now.setHours(23, 59, 59, 999).valueOf();
+  let day = "";
+  const now = new Date();
+  const today = now.setHours(23, 59, 59, 999).valueOf();
 
-    const otherDay = new Date(order.createdAt);
-    const other = otherDay.valueOf();
-    
-    const num = Math.floor((today-other)/86400000);
-    if (num <= 1) {
-      day = 'Сегодня, ' + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
-    } else if (num <= 2) {
-      day = 'Вчера, ' + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
-    } else if (num <= 3) {
-      day = 'Позавчера, ' + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
+  const otherDay = new Date(order.createdAt);
+  const other = otherDay.valueOf();
+
+  const num = Math.floor((today - other) / 86400000);
+  if (num <= 1) {
+    day =
+      "Сегодня, " +
+      otherDay.getHours() +
+      ":" +
+      otherDay.getMinutes() +
+      " i-GMT+" +
+      -now.getTimezoneOffset() / 60;
+  } else if (num <= 2) {
+    day =
+      "Вчера, " +
+      otherDay.getHours() +
+      ":" +
+      otherDay.getMinutes() +
+      " i-GMT+" +
+      -now.getTimezoneOffset() / 60;
+  } else if (num <= 3) {
+    day =
+      "Позавчера, " +
+      otherDay.getHours() +
+      ":" +
+      otherDay.getMinutes() +
+      " i-GMT+" +
+      -now.getTimezoneOffset() / 60;
+  } else {
+    if (num <= 4 || (num % 10 >= 1 && num % 10 <= 1)) {
+      day =
+        `${num} дня назад, ` +
+        otherDay.getHours() +
+        ":" +
+        otherDay.getMinutes() +
+        " i-GMT+" +
+        -now.getTimezoneOffset() / 60;
     } else {
-      if (num <=4 || (num%10>=1 && num%10<=1)) {
-      day = `${num} дня назад, ` + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
-    } else {
-      day = `${num} дней назад, ` + otherDay.getHours() + ':' + otherDay.getMinutes() + ' i-GMT+' + -now.getTimezoneOffset()/60;
+      day =
+        `${num} дней назад, ` +
+        otherDay.getHours() +
+        ":" +
+        otherDay.getMinutes() +
+        " i-GMT+" +
+        -now.getTimezoneOffset() / 60;
     }
   }
 
@@ -80,8 +115,8 @@ export function OrderItem(props: any) {
         )}
         <div className={`${styles.identification} mt-6`}>
           <ul className={styles.imageContainer}>
-            {order.ingredients.map((id: string, index: number) => {
-              const dataCard = cards.find((card: any) => card._id === id);
+            {order.ingredients.map((id, index) => {
+              const dataCard = cards.find((card: Ingredient) => card._id === id);
               if (index === 6) {
                 const styleModal = {
                   left: -147,
@@ -128,10 +163,11 @@ export function OrderItem(props: any) {
   );
 }
 
-export function OrderLine(props: any) {
+export function OrderLine(
+  props: { orders: Array<IOrder>, type: string, onClick: (order: IOrder) => void }
+) {
   const { orders, type, onClick } = props;
-  // console.log(orders);
-  const dataCards = useSelector((store: RootState) => {
+  const dataCards = useSelector((store) => {
     return store.ingredient.baseIngredients;
   });
   const width = {
@@ -145,7 +181,7 @@ export function OrderLine(props: any) {
     <main className={styles.main}>
       <ul className={styles.list} style={width}>
         {orders &&
-          orders.map((order: any, index: number) => {
+          orders.map((order, index) => {
             return (
               <OrderItem
                 order={order}
@@ -161,15 +197,18 @@ export function OrderLine(props: any) {
   );
 }
 
-export function OrderList(props: any) {
+export function OrderList(props: {onClick: (order: IOrder) => void}) {
   const { onClick } = props;
-  const list = useSelector((store: RootState) => {
+  const list = useSelector((store) => {
     if (store.order) {
       return store.order["messages"];
     }
   });
 
-  const data = list.orders;
+  let data: Array<IOrder> = [];
+  if (list) {
+   data = list.orders;
+  } 
   return (
     <section className={`${styles.section} mr-15`}>
       <h1 className={`text text_type_main-large mb-5`}>Лента заказов</h1>

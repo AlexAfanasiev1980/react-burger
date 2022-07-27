@@ -10,21 +10,18 @@ import OrderPage from '../order/order-page';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import IngredientDetailsPage from '../ingredient-details/ingredient-details-page';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { VIEWED_INGREDIENT, VIEWED_ORDER } from '../../services/actions/index';
 import { MODAL_VISIBLE, CLOSE_MODAL } from '../../services/actions/actions';
 import { sendOrder } from '../../services/actions/actions';
-import { RootState } from '../../services/reducers';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Ingredient } from '../../utils/types';
 import { Redirect, Switch, Route, Router } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router-dom';
-import { getMessages, getUser, getWsConnected } from '../../services/selectors';
 import { ProtectedRoute } from '../protected-routh';
 import { getItems } from '../../services/actions/index';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from "../../services/action-types";
 import { LoginPage, FeedPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFound404 } from '../../pages';
+import { ILocation, IBackground, IOrder, Ingredient } from '../../utils/types'; 
 
 function App() {
 
@@ -33,15 +30,15 @@ function App() {
     isIngredient: false,
   });
 
-  const { viewIngredient, modalVisible, numOrder } = useSelector((store:RootState) => {
+  const { viewIngredient, modalVisible, numOrder } = useSelector((store) => {
     return store.ingredient
   });
-  const state = useSelector((store:RootState) => {
+  const state = useSelector((store) => {
     return store.user
   });
-  const location:any = useLocation();
-  const background:any = location.state && location.state.background;
-  const history:any = useHistory();
+  const location:ILocation = useLocation();
+  const background:IBackground = location.state && location.state.background;
+  const history = useHistory();
 
   const openModalIngredients = (card: Ingredient) => {
     dispatch({
@@ -54,7 +51,8 @@ function App() {
     });
   }
 
-  const openModalOrder = (order: any) => {
+  const openModalOrder = (order: IOrder) => {
+    
     dispatch({
       type: VIEWED_ORDER,
       payload: order
@@ -65,7 +63,7 @@ function App() {
     });
   }
 
-  const openModal = (selectCards:any) => {
+  const openModal = (selectCards:Array<Ingredient>) => {
     if (state.user.name) {
       return dispatch(sendOrder(selectCards))
     } else {

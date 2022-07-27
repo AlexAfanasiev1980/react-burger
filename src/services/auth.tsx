@@ -1,17 +1,17 @@
-import React, { useContext, useState, createContext, useCallback } from "react";
+import React, { useContext, createContext, useCallback, FunctionComponent } from "react";
 import { deleteCookie, setCookie } from "./utils";
 import { loginRequest, getUserRequest, logoutRequest } from "./api";
 import { LOGOUT_USER } from "./actions/user-actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../services/hooks";
 import { checkResponse } from "./actions/index";
-import { RootState } from "./reducers";
 import { apdateTokenRequest } from "./api";
 import { getUserDate, signInUser, signOutUser } from "./actions/user-actions";
+import { ILogin, IAuth } from '../utils/types';
 
-const AuthContext = createContext(undefined);
+const AuthContext = createContext<any>(undefined);
 
-export function ProvideAuth({ children }: any) {
-  const auth: any = useProvideAuth();
+export function ProvideAuth ({ children }: {children:React.ReactNode}) {
+  const auth: IAuth = useProvideAuth();
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
@@ -21,15 +21,15 @@ export function useAuth() {
 
 export function useProvideAuth() {
   const dispatch = useDispatch();
-  const { user } = useSelector((store: RootState) => {
+  const { user } = useSelector((store) => {
     return store.user;
   });
 
   const getUser = () => dispatch(getUserDate(user));
 
-  const signIn = (form: any) => dispatch(signInUser(form));
+  const signIn = (form: ILogin) => dispatch(signInUser(form));
 
-  const signOut = (token: any) => dispatch(signOutUser(token));
+  const signOut = (token: string|null) => dispatch(signOutUser(token));
 
   return {
     user,

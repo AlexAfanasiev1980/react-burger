@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/reducers';
+import { useSelector } from '../../services/hooks';
 import { useParams } from 'react-router-dom';
 import styleIngredient from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Ingredient } from '../../utils/types';
 
 interface IngredientProps {
   title:string,
@@ -16,10 +16,10 @@ interface IdDate {
 
 export default function IngredientDetails(props:IngredientProps) {
 const id:IdDate = useParams();
-const dataCards = useSelector((store:RootState) => {
+const dataCards = useSelector((store) => {
     return store.ingredient.baseIngredients
   });
-const dataCard = dataCards.filter((card:any) => card._id === id.id)[0];
+const dataCard = dataCards.filter((card:Ingredient) => card._id === id.id)[0];
 
 return (
     <>

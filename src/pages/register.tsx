@@ -8,7 +8,7 @@ import {
 import styles from "./index.module.css";
 import { setUserRequest } from "../services/api";
 import { checkResponse } from "../services/actions/index";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../services/hooks";
 import { GET_USER_SUCCESS } from "../services/actions/user-actions";
 import { useAuth } from '../services/auth';
 
@@ -18,11 +18,11 @@ export function RegisterPage() {
   const [valueName, setValueName] = useState("");
   const [register, setRegister] = useState(false);
   const dispatch = useDispatch();
-  const onChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValuePass(e.target.value);
   };
   const inputRefMail = useRef<HTMLInputElement>(null);
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setUserRequest({ name: valueName, email: value, password: valuePass })
       .then(checkResponse)

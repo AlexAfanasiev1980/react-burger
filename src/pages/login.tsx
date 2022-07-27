@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef, ChangeEvent } from "react";
 import { Redirect, Link, useLocation } from "react-router-dom";
 import {
   Input,
@@ -7,16 +7,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./index.module.css";
 import { useAuth } from "../services/auth";
+import { ILocation, IAuth } from "../utils/types";
 
 export function LoginPage() {
-  const location = useLocation();
-  const state: any = location.state;
+  const location: ILocation = useLocation();
+  const state = location.state;
   const inputRefMail = useRef<HTMLInputElement>(null);
-  const auth: any = useAuth();
+  const auth: IAuth = useAuth();
   const [form, setValue] = useState({ email: "", password: "" });
 
-  const onChange = (e: any) => {
+  const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    // console.log(e.target.name);
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -28,6 +30,7 @@ export function LoginPage() {
     [auth, form]
   );
 
+  
   if (auth.user.name) {
     return <Redirect to={(state && state.from) || "/"} />;
   }

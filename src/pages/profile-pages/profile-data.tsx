@@ -6,11 +6,10 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../index.module.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/reducers";
+import { useSelector } from "../../services/hooks";
 import { checkResponse } from "../../services/actions/index";
 import { UPDATE_USER_SUCCESS } from "../../services/actions/user-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { apdateUserDataRequest } from "../../services/api";
 
 export function ProfileDataPage() {
@@ -21,7 +20,7 @@ export function ProfileDataPage() {
   const [display, setDisplay] = useState(false);
   const dispatch = useDispatch();
 
-  const { user } = useSelector((store: RootState) => {
+  const { user } = useSelector((store) => {
     return store.user;
   });
 
@@ -49,7 +48,7 @@ export function ProfileDataPage() {
     setValuePass(user.password);
   };
 
-  const save = (e: any) => {
+  const save = (e: React.SyntheticEvent) => {
     e.preventDefault();
     apdateUserDataRequest({
       email: valueLogin,
@@ -71,7 +70,7 @@ export function ProfileDataPage() {
       });
   };
 
-  const onChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.name === "password"
       ? setValuePass(e.target.value)
       : e.target.name === "name"
@@ -80,6 +79,7 @@ export function ProfileDataPage() {
   };
 
   const onClickWindow = (e: any) => {
+    console.log(e);
     if (e.target.name !== "name") {
       setDisabledName(true);
       window.removeEventListener("click", onClickWindow);

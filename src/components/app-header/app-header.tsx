@@ -14,7 +14,7 @@ function AppHeader() {
       profile: false
     });
 
-    const onClickHendler = (e:any) => {
+    const onClickHendler = (e:React.MouseEvent<HTMLAnchorElement>) => {
       e.currentTarget.id === "profile" ? 
       setActive({...isActive, burger: false, list: false, profile: true}) :
       e.currentTarget.id === "list" ? 

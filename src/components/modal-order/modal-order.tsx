@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { useParams } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import * as React from 'react'
 import style from './modal-order.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { RootState } from '../../services/reducers';
+import { IOrder } from '../../utils/types';
 
 interface IdDate {
   id: string;
@@ -21,18 +21,20 @@ interface ModalProps {
 export default function ModalOrder(props:ModalProps) {
   const id: IdDate = useParams();
     const modalRoot = document.getElementById('modals')!;
-    const orders = useSelector((store: RootState) => {
+    const orders = useSelector((store) => {
       return store.order.messages.orders;
     });
     let order;
     if (orders) {
-      order = orders.find((el: any) => el._id === id.id);
+      order = orders.find((el: IOrder) => el._id === id.id);
     }
 
     const { onClose, title } = props;
+
+    
     
     useEffect(() => {
-      const handleEscClose = (e:any) => {
+      const handleEscClose = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           onClose();
         };

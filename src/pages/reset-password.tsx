@@ -1,16 +1,17 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, ChangeEvent } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './index.module.css';
 import { setResetPasswordRequest } from '../services/api';
 import { checkResponse } from '../services/actions/index';
 import { useAuth } from '../services/auth';
+import { IAuth } from '../utils/types';
 
 export function ResetPasswordPage() {
   const [form, setValue] = useState({ password: '', token: '' });
   const [passwordReset, setPasswordReset] = useState(false);
-  const auth:any = useAuth();
-  const onChange = (e:any) => {
+  const auth:IAuth = useAuth();
+  const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }
   const resetPassword = useCallback(

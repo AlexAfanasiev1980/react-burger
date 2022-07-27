@@ -1,24 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, FunctionComponent } from 'react';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
-import { RootState } from '../../services/reducers';
 import { getItems } from '../../services/actions/index';
 import { useDrag } from "react-dnd";
-import { Ingredient } from '../../utils/types';
+import { Ingredient, ILocation } from '../../utils/types';
 
 interface IngredientProps {
   onClick: (card:Ingredient) => void
   card: Ingredient
-  ingredients: any
+  ingredients: Array<Ingredient>
 }
 
 interface BurgerProps {
   onClick: (card:Ingredient) => void
 }
 
-function Tabs(props:any) {
+function Tabs(props: {current: string, setCurrent: React.Dispatch<React.SetStateAction<string>>}) {
   const {current, setCurrent} = props;
   return (
     <div className={ingredientsStyles.tab}>
@@ -36,7 +35,7 @@ function Tabs(props:any) {
 }
 
 function IngredientItem(props:IngredientProps) {
-  const location:any = useLocation();
+  const location:ILocation = useLocation();
   const {onClick, card, ingredients} = props;
   const id = card._id;
   const [, dragRef] = useDrag({
@@ -48,7 +47,7 @@ function IngredientItem(props:IngredientProps) {
   });
   
   
-  let counter = ingredients.filter((element:any) => element._id === id).length;
+  let counter = ingredients.filter((element:Ingredient) => element._id === id).length;
   if (counter !== 0 && card['type'] === 'bun') {
     counter += counter;
   }
@@ -77,27 +76,36 @@ function IngredientItem(props:IngredientProps) {
   );
 }
 
-function BurgerIngredients(props:BurgerProps) {
+const BurgerIngredients: FunctionComponent<BurgerProps> = (props) => {
     const [current, setCurrent] = useState('one');
-    const refScroll:any = useRef();
-    const sauceRef:any = useRef();
-    const mainRef:any = useRef();
+    const refScroll = useRef<HTMLDivElement>(null);
+    const sauceRef = useRef<HTMLDivElement>(null);
+    const mainRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
-    const dataCards = useSelector((store:RootState) => {
+    const dataCards:Array<Ingredient> = useSelector((store) => {
       return store.ingredient.baseIngredients
     });
-    const ingredients = useSelector((store:RootState) => {
+    const ingredients = useSelector((store) => {
       return store.ingredient.selectedIngredients
     });
-    const isLoading = useSelector((store:RootState) => store.ingredient.isLoading);
+    const isLoading = useSelector((store) => store.ingredient.isLoading);
     const bun = dataCards.filter((card:Ingredient) => card.type==='bun');
     const sauce = dataCards.filter((card:Ingredient) => card.type==='sauce');
     const main = dataCards.filter((card:Ingredient) => card.type==='main');
 
     const handleScroll = () => {
-      let scrollDistance = refScroll.current.scrollTop;
-      let sauceTop = sauceRef.current.offsetTop;
-      let mainTop = mainRef.current.offsetTop;
+      let scrollDistance:number = 0;
+      let sauceTop:number = 0;
+      let mainTop:number = 0;
+      if (refScroll && refScroll.current) {
+        scrollDistance = refScroll.current.scrollTop;
+      }
+      if (sauceRef && sauceRef.current) {
+        sauceTop = sauceRef.current.offsetTop;
+      }
+      if (mainRef && mainRef.current) {
+        mainTop = mainRef.current.offsetTop;
+      }
       if (scrollDistance < sauceTop) {
         setCurrent('one')
       } else if (scrollDistance > sauceTop && scrollDistance < mainTop) {
@@ -121,7 +129,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Булки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {bun.map((card:Ingredient, index:number) => {
+                {bun.map((card, index) => {
                   return (
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
                   )
@@ -131,7 +139,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div ref={sauceRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Соусы</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {sauce.map((card:Ingredient, index:number) => {
+                {sauce.map((card, index) => {
                   return (
                   
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>
@@ -143,7 +151,7 @@ function BurgerIngredients(props:BurgerProps) {
           <div ref={mainRef}>
             <h2 className={`${ingredientsStyles.menu_item} mb-6 text_type_main-medium`}>Начинки</h2>
               <ul className={`${ingredientsStyles.list} ml-4 mb-10`}>
-                {main.map((card:Ingredient, index:number) => {
+                {main.map((card, index) => {
                   return (
                    
                       <IngredientItem onClick={props.onClick} card={card} key={card._id} ingredients={ingredients}/>

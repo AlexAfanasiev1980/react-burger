@@ -2,8 +2,7 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import orderStyles from './burger-constructor.module.css';
 import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Subtract from '../../images/Subtract.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../services/reducers';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { PRICE } from '../../services/actions/index';
 import { MOVE_CARD, ADD_ITEM, DELETE_ITEM, REPLACE_ITEM } from '../../services/actions/actions';
 import { useDrop, useDrag } from "react-dnd";
@@ -12,14 +11,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 interface BurgerConstructorProps {
-  onClick: (selectedIngredients:any) => void
+  onClick: (selectedIngredients:Array<Ingredient>) => void
 }
 
 interface BurgerItemProps {
   dataCard: Ingredient
   typeMean: "top" | "bottom" | undefined
   isLocked?: boolean
-  handleClose?: (() => void)| undefined
+  handleClose?: (() => void) | undefined
 }
 
 export type ReducerTypeData = {
@@ -46,7 +45,7 @@ function BurgerItem(props:BurgerItemProps) {
   )
 }
 
-const IngredientCard = (props:any) => {
+const IngredientCard = (props:{card:Ingredient, index: number, moveCard: (dragIndex:number, hoverIndex: number)=>void, onDeleteHandler: (index: number) => void}) => {
   const {card, index, onDeleteHandler, moveCard} = props;
   const id = card._id;
   let locked;
@@ -71,6 +70,7 @@ const IngredientCard = (props:any) => {
       }
     },
     hover(item:any, monitor) {
+      // console.log(item)
       if (!ref.current) {
         return
       }
@@ -117,20 +117,20 @@ const IngredientCard = (props:any) => {
 function BurgerConstructor(props:BurgerConstructorProps) {
   
   const { onClick } = props;
-  const cards = useSelector((store:RootState) => {
+  const cards = useSelector((store) => {
     return store.ingredient.baseIngredients
   });
-    const selectCards = useSelector((store:RootState) => {
+  const selectCards  = useSelector((store) => {
     return store.ingredient.selectedIngredients
   });
   let sum=0;
   let cardData:Ingredient[] = [];
-  const { selectedIngredients, price } = useSelector((store:RootState) => {
+  const { selectedIngredients, price } = useSelector((store) => {
     return {...store.ingredient}
   });
   const dispatch = useDispatch();
 
-const handleDrop = (item:any) => {
+const handleDrop = (item:{id: string}) => {
   const element = selectCards.filter((element:Ingredient) => element.type === 'bun');
   const typeItem = cards.filter((element:Ingredient) => element._id === item.id)[0].type;
   if (element.length !== 0 &&  typeItem === 'bun') {
@@ -150,7 +150,7 @@ const handleDrop = (item:any) => {
   }
 };
 
-const deleteItem = (index:any) => {
+const deleteItem = (index:number) => {
   dispatch({
     type: DELETE_ITEM,
     payload: selectCards.filter((element:Ingredient, indexElement:number) => indexElement !== index)
@@ -159,7 +159,7 @@ const deleteItem = (index:any) => {
 
 const [, dropTarget] = useDrop({
   accept: "ingredient",
-  drop(item:any) {
+  drop(item:{id: string}) {
     handleDrop(item);
   },
 });
@@ -207,7 +207,7 @@ const [, dropTarget] = useDrop({
          }  
           </ul>
           <ul className={`${orderStyles.list_onlocked} pl-4`}>
-            {selectedIngredients.map((card: Ingredient, index:number, arr:Ingredient[]) => {
+            {selectedIngredients.map((card, index, arr) => {
               if (card.type !== 'bun') {
                 return (
                 <IngredientCard 

@@ -1,13 +1,12 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
+import { RootState } from '../reducers';
 import { getCookie } from '../utils';
+import { TConnectionActions, TWSActions } from '../action-types/wsActionTypes'
 
-export const socketMiddleware = (wsUrl:any, wsActions:any) => {
-  return (store:any) => {
-  
-    let socket:any = null;
-    let socketUser:any = null;
-
-  return (next:any) => (action:any) => {
+export const socketMiddleware = (wsUrl:string, wsActions:TWSActions):Middleware => {
+  return (store) => {
+  let socket: WebSocket | null = null;
+  return (next) => (action) => {
     const { dispatch, getState } = store;
     const { type, payload } = action;
     const { user } = getState().user;
@@ -16,29 +15,28 @@ export const socketMiddleware = (wsUrl:any, wsActions:any) => {
     if (type === wsInit) {
       socket = new WebSocket(`${wsUrl}${payload}`);
     }  
-// console.log(socket)
+
     if (socket && type === onClose) {
       socket.close(1000);
     }  
 
 
 if (socket) {
-        socket.onopen = (event:any) => {
+        socket.onopen = (event:Event) => {
+         
           dispatch({ type: onOpen, payload: event });
         };
 
-        socket.onerror = (event:any) => {
+        socket.onerror = (event:Event) => {
           dispatch({ type: onError, payload: event });
         };
 
-        socket.onmessage = (event:any) => {
+        socket.onmessage = (event:MessageEvent) => {
           const { data } = event;
-          // console.log(JSON.parse(data));
           dispatch({ type: onMessage, payload: JSON.parse(data) });
         };
 
-        socket.onclose = (event:any) => {
-          // console.log('Закрываю');
+        socket.onclose = (event:Event) => {
           dispatch({ type: onClose, payload: event });
         };
 
