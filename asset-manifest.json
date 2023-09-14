@@ -1,24 +1,21 @@
 {
-  "files": {
-    "main.css": "/static/css/main.0fca7e36.css",
-    "main.js": "/static/js/main.47441f8b.js",
-    "static/js/787.2b4cbca8.chunk.js": "/static/js/787.2b4cbca8.chunk.js",
-    "static/media/JetBrainsMono-Bold.woff": "/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
-    "static/media/JetBrainsMono-Regular.woff": "/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
-    "static/media/done1.svg": "/static/media/done1.3ba9e5cd3e425ccd87f6c48cb38cd1f5.svg",
-    "static/media/JetBrainsMono-Bold.woff2": "/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
-    "static/media/JetBrainsMono-Regular.woff2": "/static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
-    "static/media/iceland.woff": "/static/media/iceland.77ad7fc2baffd9305538.woff",
-    "static/media/logo.svg": "/static/media/logo.5d250eeddcaed1fdb5ba69f636f492ce.svg",
-    "static/media/iceland.woff2": "/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
-    "static/media/Subtract.svg": "/static/media/Subtract.9c1486179358f987e416987276d658fd.svg",
-    "index.html": "/index.html",
-    "main.0fca7e36.css.map": "/static/css/main.0fca7e36.css.map",
-    "main.47441f8b.js.map": "/static/js/main.47441f8b.js.map",
-    "787.2b4cbca8.chunk.js.map": "/static/js/787.2b4cbca8.chunk.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.0fca7e36.css",
-    "static/js/main.47441f8b.js"
-  ]
+  "main.css": "/react-burger.github.io/static/css/main.8b85977a.chunk.css",
+  "main.js": "/react-burger.github.io/static/js/main.697b107c.chunk.js",
+  "main.js.map": "/react-burger.github.io/static/js/main.697b107c.chunk.js.map",
+  "static/js/1.dbc81d6a.chunk.js": "/react-burger.github.io/static/js/1.dbc81d6a.chunk.js",
+  "static/js/1.dbc81d6a.chunk.js.map": "/react-burger.github.io/static/js/1.dbc81d6a.chunk.js.map",
+  "static/css/2.deb49dcb.chunk.css": "/react-burger.github.io/static/css/2.deb49dcb.chunk.css",
+  "static/js/2.3fe187ae.chunk.js": "/react-burger.github.io/static/js/2.3fe187ae.chunk.js",
+  "static/js/2.3fe187ae.chunk.js.map": "/react-burger.github.io/static/js/2.3fe187ae.chunk.js.map",
+  "runtime~main.js": "/react-burger.github.io/static/js/runtime~main.88931c4d.js",
+  "runtime~main.js.map": "/react-burger.github.io/static/js/runtime~main.88931c4d.js.map",
+  "static/media/logo.svg": "/react-burger.github.io/static/media/logo.d956cbee.svg",
+  "static/media/Subtract.svg": "/react-burger.github.io/static/media/Subtract.0377dc82.svg",
+  "static/media/done1.svg": "/react-burger.github.io/static/media/done1.889f30de.svg",
+  "static/media/fonts.css": "/react-burger.github.io/static/media/iceland.df042be2.woff",
+  "static/css/main.8b85977a.chunk.css.map": "/react-burger.github.io/static/css/main.8b85977a.chunk.css.map",
+  "static/css/2.deb49dcb.chunk.css.map": "/react-burger.github.io/static/css/2.deb49dcb.chunk.css.map",
+  "index.html": "/react-burger.github.io/index.html",
+  "precache-manifest.2fb0b2082ff8f027442f7bc1236189f0.js": "/react-burger.github.io/precache-manifest.2fb0b2082ff8f027442f7bc1236189f0.js",
+  "service-worker.js": "/react-burger.github.io/service-worker.js"
 }
